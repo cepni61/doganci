@@ -61,30 +61,26 @@ body {
 .hero-title {
     font-size: clamp(2rem, 8vw, 3.2rem);
     font-weight: 700;
-    color: #ffffff !important; /* TAM BEYAZ - !important ile zorla */
+    color: #ffffff !important;
     margin-bottom: 15px;
     line-height: 1.2;
     text-shadow: 
-        /* Mavi glow */
         0 0 20px rgba(30, 144, 255, 1),
         0 0 40px rgba(30, 144, 255, 0.8),
         0 0 60px rgba(30, 144, 255, 0.6),
-        /* Siyah gölge */
         0 3px 10px rgba(0, 0, 0, 0.8),
         0 6px 20px rgba(0, 0, 0, 0.6) !important;
 }
 
 .hero-subtitle {
     font-size: clamp(1rem, 4vw, 1.4rem);
-    color: #f5f5f5 !important; /* KIRIK BEYAZ - !important ile zorla */
+    color: #f5f5f5 !important;
     margin-bottom: 40px;
     font-weight: 500;
     text-shadow: 
-        /* Mavi glow */
         0 0 15px rgba(30, 144, 255, 0.9),
         0 0 30px rgba(30, 144, 255, 0.7),
         0 0 45px rgba(30, 144, 255, 0.5),
-        /* Siyah gölge */
         0 2px 8px rgba(0, 0, 0, 0.8),
         0 4px 15px rgba(0, 0, 0, 0.6) !important;
 }
@@ -174,90 +170,6 @@ body {
     }
 }
 
-/* Yazıları da koyuya çevir */
-/* Yazıları da koyuya çevir */
-/* Yazıları da beyaz yap - mavi glow ile */
-.hero-title {
-    font-size: clamp(2rem, 8vw, 3.2rem);
-    font-weight: 700;
-    color: #ffffff; /* TAM BEYAZ */
-    margin-bottom: 15px;
-    line-height: 1.2;
-    text-shadow: 
-        /* Mavi glow - daha yumuşak */
-        0 0 20px rgba(30, 144, 255, 1),
-        0 0 40px rgba(30, 144, 255, 0.8),
-        0 0 60px rgba(30, 144, 255, 0.6),
-        /* Siyah gölge - derinlik */
-        0 3px 10px rgba(0, 0, 0, 0.8),
-        0 6px 20px rgba(0, 0, 0, 0.6);
-}
-
-.hero-subtitle {
-    font-size: clamp(1rem, 4vw, 1.4rem);
-    color: #f5f5f5; /* KIRIK BEYAZ */
-    margin-bottom: 40px;
-    font-weight: 500;
-    text-shadow: 
-        /* Mavi glow */
-        0 0 15px rgba(30, 144, 255, 0.9),
-        0 0 30px rgba(30, 144, 255, 0.7),
-        0 0 45px rgba(30, 144, 255, 0.5),
-        /* Siyah gölge */
-        0 2px 8px rgba(0, 0, 0, 0.8),
-        0 4px 15px rgba(0, 0, 0, 0.6);
-}
-
-.hero-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-}
-
-.btn {
-    display: inline-block;
-    padding: 16px 32px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    width: 100%;
-    max-width: 280px;
-    text-align: center;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: #ffffff;
-}
-
-.btn-primary:hover {
-    background-color: #c74f00;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(224, 90, 0, 0.3);
-}
-
-.btn-secondary {
-    background-color: #ffffff;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-}
-
-.btn-secondary:hover {
-    background-color: var(--primary-color);
-    color: #ffffff;
-    transform: translateY(-2px);
-}
-
-@media (min-width: 600px) {
-    .hero-buttons {
-        flex-direction: row;
-        justify-content: center;
-    }
-}
-
 /* PAGE LAYOUT */
 .page-container {
     max-width: 1200px;
@@ -279,12 +191,17 @@ body {
     color: #c74f00;
 }
 
+/* ÜYELERİMİZ ve HABERLER BAŞLIĞI - TURUNCU YAZILI BEYAZ FONT */
 .page-title {
     text-align: center;
     font-size: clamp(1.8rem, 4vw, 2.5rem);
     font-weight: 700;
-    color: var(--text-color);
+    color: var(--primary-color) !important; /* TURUNCU */
+    background-color: #ffffff !important; /* BEYAZ ARKA PLAN */
+    padding: 15px 20px;
+    border-radius: 12px;
     margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(224, 90, 0, 0.15);
 }
 
 /* LOADING */
@@ -559,4 +476,50 @@ body {
     .news-content {
         padding: 15px;
     }
+}
+
+/* MOR/PEMBE RENK TEMİZLİĞİ - TÜM MOR/PEMBE RENK KULLANILAN YERLER TURUNCU YAPILDI */
+/* Navbar mor/pembe gradient yerine turuncu gradient */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #c74f00 100%) !important;
+}
+
+/* Sidebar mor/pembe gradient yerine turuncu gradient */
+.sidebar {
+    background: linear-gradient(180deg, var(--primary-color) 0%, #c74f00 100%) !important;
+}
+
+/* Stat card numaraları mor yerine turuncu */
+.stat-card .number {
+    color: var(--primary-color) !important;
+}
+
+/* Buton mor/pembe gradient yerine turuncu gradient */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #c74f00 100%) !important;
+}
+
+/* Profession mor yerine turuncu */
+.profession {
+    color: var(--primary-color) !important;
+}
+
+/* Member photo border mor yerine turuncu */
+.member-photo {
+    border-color: var(--primary-color) !important;
+}
+
+/* Member photo placeholder mor gradient yerine turuncu */
+.member-photo-placeholder {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #c74f00 100%) !important;
+}
+
+/* Page header h2 renk düzeltmesi */
+.page-header h2 {
+    color: var(--primary-color) !important;
+}
+
+/* Section header h2 renk düzeltmesi */
+.section-header h2 {
+    color: var(--text-color) !important;
 }
