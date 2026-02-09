@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doğancı İş İnsanları</title>
+    <title>Admin Girişi - Doğancı İş İnsanları</title>
     <style>
         * {
             margin: 0;
@@ -13,142 +13,195 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-        }
-        
-        .hero {
+            background: linear-gradient(135deg, #e05a00 0%, #ff8c00 100%);
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            color: white;
             padding: 20px;
         }
         
-        .hero-content h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        
-        .hero-content p {
-            font-size: 20px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-        }
-        
-        .btn-group {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 15px 40px;
+        .login-container {
             background: white;
-            color: #667eea;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 16px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
         }
         
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-        
-        .stats {
-            display: flex;
-            gap: 50px;
-            margin-top: 60px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .stat {
+        .login-header {
             text-align: center;
+            margin-bottom: 30px;
         }
         
-        .stat-number {
-            font-size: 48px;
-            font-weight: 700;
+        .login-header h1 {
+            font-size: 28px;
+            color: #333;
             margin-bottom: 10px;
         }
         
-        .stat-label {
-            font-size: 16px;
-            opacity: 0.9;
+        .login-header p {
+            color: #666;
+            font-size: 14px;
         }
         
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 32px;
-            }
-            .hero-content p {
-                font-size: 16px;
-            }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #e05a00;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #e05a00 0%, #ff8c00 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: #e05a00;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="hero-content">
-            <h1>🎯 Doğancı İş İnsanları</h1>
-            <p>Doğancı bölgesinin güçlü iş ağı platformu</p>
-            
-            <div class="btn-group">
-                <a href="members.html" class="btn">👥 Üyelerimiz</a>
-                <a href="news.html" class="btn btn-outline">📰 Haberler</a>
-                <a href="admin/index.html" class="btn btn-outline">🔐 Admin</a>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🔐 Admin Girişi</h1>
+            <p>Doğancı İş İnsanları Yönetim Paneli</p>
+        </div>
+        
+        <div id="errorMessage" class="error-message"></div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required placeholder="admin@doganci.com">
             </div>
             
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number" id="memberCount">...</div>
-                    <div class="stat-label">Aktif Üye</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number" id="newsCount">...</div>
-                    <div class="stat-label">Haber</div>
-                </div>
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" required placeholder="••••••••">
             </div>
+            
+            <button type="submit" class="btn-login" id="loginBtn">
+                Giriş Yap
+            </button>
+        </form>
+        
+        <div class="back-link">
+            <a href="../index.html">← Ana Sayfaya Dön</a>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
+    <script src="../js/supabase-config.js"></script>
     <script>
-        // İstatistikleri yükle
-        async function loadStats() {
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        // Sayfa yüklendiğinde oturum kontrolü
+        window.addEventListener('load', async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                // Zaten giriş yapılmış, dashboard'a yönlendir
+                window.location.href = 'dashboard.html';
+            }
+        });
+        
+        // Giriş formu submit
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Butonu devre dışı bırak
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Giriş yapılıyor...';
+            errorMessage.classList.remove('show');
+            
             try {
-                // Üye sayısı
-                const { count: memberCount } = await supabase
-                    .from('members')
-                    .select('*', { count: 'exact', head: true });
-                document.getElementById('memberCount').textContent = memberCount || 0;
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
                 
-                // Haber sayısı
-                const { count: newsCount } = await supabase
-                    .from('news')
-                    .select('*', { count: 'exact', head: true });
-                document.getElementById('newsCount').textContent = newsCount || 0;
+                if (error) throw error;
+                
+                // Başarılı giriş - dashboard'a yönlendir
+                window.location.href = 'dashboard.html';
                 
             } catch (error) {
-                console.error('İstatistikler yükleme hatası:', error);
+                console.error('Giriş hatası:', error);
+                errorMessage.textContent = 'Giriş başarısız: ' + error.message;
+                errorMessage.classList.add('show');
+                
+                // Butonu tekrar aktif et
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Giriş Yap';
             }
-        }
-        
-        window.addEventListener('load', loadStats);
+        });
     </script>
 </body>
 </html>
