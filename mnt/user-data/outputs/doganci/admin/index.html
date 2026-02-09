@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Girişi - Doğancı İş İnsanları</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
+        }
+        
+        .back-to-site {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-to-site a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .back-to-site a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>🔐 Admin Girişi</h1>
+                <p>Doğancı İş İnsanları Yönetim Paneli</p>
+            </div>
+            
+            <div id="errorMessage" class="error-message"></div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="admin@doganci.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Beni hatırla</label>
+                </div>
+                
+                <button type="submit" class="btn-login" id="loginBtn">
+                    Giriş Yap
+                </button>
+            </form>
+            
+            <div class="back-to-site">
+                <a href="../index.html">← Ana Sayfaya Dön</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginBtn = document.getElementById('loginBtn');
+        
+        // Sayfa yüklendiğinde oturum kontrolü
+        window.addEventListener('load', async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+        
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Butonu devre dışı bırak
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Giriş yapılıyor...';
+            errorMessage.classList.remove('show');
+            
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                });
+                
+                if (error) throw error;
+                
+                // Başarılı giriş
+                window.location.href = 'dashboard.html';
+                
+            } catch (error) {
+                errorMessage.textContent = '❌ ' + (error.message || 'Giriş başarısız. Email ve şifrenizi kontrol edin.');
+                errorMessage.classList.add('show');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Giriş Yap';
+            }
+        });
+    </script>
+</body>
+</html>

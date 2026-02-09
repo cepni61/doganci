@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doğancı İş İnsanları</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+        }
+        
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 50px;
+            margin-top: 60px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            .hero-content p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>🎯 Doğancı İş İnsanları</h1>
+            <p>Doğancı bölgesinin güçlü iş ağı platformu</p>
+            
+            <div class="btn-group">
+                <a href="members.html" class="btn">👥 Üyelerimiz</a>
+                <a href="news.html" class="btn btn-outline">📰 Haberler</a>
+                <a href="admin/index.html" class="btn btn-outline">🔐 Admin</a>
+            </div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number" id="memberCount">...</div>
+                    <div class="stat-label">Aktif Üye</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="newsCount">...</div>
+                    <div class="stat-label">Haber</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script>
+        // İstatistikleri yükle
+        async function loadStats() {
+            try {
+                // Üye sayısı
+                const { count: memberCount } = await supabase
+                    .from('members')
+                    .select('*', { count: 'exact', head: true });
+                document.getElementById('memberCount').textContent = memberCount || 0;
+                
+                // Haber sayısı
+                const { count: newsCount } = await supabase
+                    .from('news')
+                    .select('*', { count: 'exact', head: true });
+                document.getElementById('newsCount').textContent = newsCount || 0;
+                
+            } catch (error) {
+                console.error('İstatistikler yükleme hatası:', error);
+            }
+        }
+        
+        window.addEventListener('load', loadStats);
+    </script>
+</body>
+</html>
