@@ -123,42 +123,35 @@
         }
 
         .features {
-            max-width: 1200px;
-            margin: 60px auto;
+            max-width: 800px;
+            margin: 40px auto;
             padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
         }
 
         .feature-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+            background: transparent;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            width: 60px;
+            height: 60px;
         }
 
         .feature-card h3 {
-            font-size: 1.3rem;
-            color: #222;
-            margin-bottom: 15px;
-        }
-
-        .feature-card p {
+            font-size: 0.95rem;
             color: #666;
-            line-height: 1.6;
+            font-weight: 500;
+            margin: 0;
         }
 
         .stats {
@@ -261,15 +254,33 @@
     <!-- Features -->
     <section class="features">
         <div class="feature-card">
-            <div class="feature-icon">🤝</div>
+            <svg class="feature-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="18" r="6" fill="#888"/>
+                <circle cx="32" cy="18" r="6" fill="#888"/>
+                <circle cx="44" cy="18" r="6" fill="#888"/>
+                <path d="M14 28c0-3.3 2.7-6 6-6s6 2.7 6 6v16h-12V28z" fill="#888"/>
+                <path d="M26 28c0-3.3 2.7-6 6-6s6 2.7 6 6v16h-12V28z" fill="#888"/>
+                <path d="M38 28c0-3.3 2.7-6 6-6s6 2.7 6 6v16h-12V28z" fill="#888"/>
+                <circle cx="32" cy="50" r="8" fill="#e05a00"/>
+                <path d="M32 42v16M24 50h16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
             <h3>Birlik</h3>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">💪</div>
+            <svg class="feature-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 32L24 24L32 32L40 24L48 32" stroke="#888" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="32" cy="32" r="20" stroke="#e05a00" stroke-width="3" fill="none"/>
+                <path d="M32 12v8M32 44v8M12 32h8M44 32h8" stroke="#e05a00" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
             <h3>Dayanışma</h3>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">⚽</div>
+            <svg class="feature-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="12" y="16" width="40" height="32" rx="4" fill="#7C1C3E"/>
+                <rect x="12" y="32" width="40" height="16" fill="#4E9FD1"/>
+                <circle cx="32" cy="32" r="8" fill="#FFD700"/>
+                <path d="M32 24l1.5 4.5h4.7l-3.8 2.8 1.5 4.6-3.9-2.8-3.9 2.8 1.5-4.6-3.8-2.8h4.7z" fill="white"/>
+            </svg>
             <h3>Kültür</h3>
         </div>
     </section>
