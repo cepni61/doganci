@@ -206,6 +206,8 @@ document.getElementById('memberForm').addEventListener('submit', async (e) => {
             name: document.getElementById('memberName').value,
             profession: document.getElementById('memberProfession').value || null,
             company: document.getElementById('memberCompany').value || null,
+            phone: document.getElementById('memberPhone').value || null,
+            email: document.getElementById('memberEmail').value || null,
             address: document.getElementById('memberAddress').value || null,
         };
         
@@ -260,6 +262,8 @@ async function editMember(id) {
         document.getElementById('memberName').value = member.name || '';
         document.getElementById('memberProfession').value = member.profession || '';
         document.getElementById('memberCompany').value = member.company || '';
+        document.getElementById('memberPhone').value = member.phone || '';
+        document.getElementById('memberEmail').value = member.email || '';
         document.getElementById('memberAddress').value = member.address || '';
         
         if (member.photo_url) {
