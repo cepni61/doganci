@@ -212,13 +212,16 @@
             const grid = document.getElementById('newsGrid');
             
             try {
+                console.log('Haberler yükleniyor...');
                 const { data: news, error } = await supabase
                     .from('news')
                     .select('*')
                     .order('published_at', { ascending: false });
-                
+
+                console.log('Supabase yanıtı:', { news, error });
+
                 if (error) throw error;
-                
+
                 loading.style.display = 'none';
                 
                 if (!news || news.length === 0) {
