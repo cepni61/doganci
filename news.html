@@ -213,10 +213,12 @@
             
             try {
                 console.log('Haberler yükleniyor...');
+                console.log('Supabase:', supabase);
+
                 const { data: news, error } = await supabase
                     .from('news')
                     .select('*')
-                    .order('published_at', { ascending: false });
+                    .order('created_at', { ascending: false });
 
                 console.log('Supabase yanıtı:', { news, error });
 
