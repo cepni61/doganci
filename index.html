@@ -37,9 +37,17 @@
         }
 
         .logo {
-            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #e05a00;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
         }
 
         .nav-links {
@@ -231,7 +239,25 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-container">
-            <div class="logo">🏢 Doğancı İş İnsanları</div>
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer circle with turquoise border -->
+                    <circle cx="50" cy="50" r="48" fill="#4E9FD1" stroke="#00CED1" stroke-width="3"/>
+                    <!-- Mountain -->
+                    <path d="M30 60 L50 30 L70 60 Z" fill="#8B4513"/>
+                    <path d="M45 40 L50 30 L55 40 Z" fill="#fff"/>
+                    <!-- Trees -->
+                    <polygon points="35,65 38,55 41,65" fill="#228B22"/>
+                    <polygon points="42,65 45,55 48,65" fill="#228B22"/>
+                    <polygon points="52,65 55,55 58,65" fill="#228B22"/>
+                    <polygon points="59,65 62,55 65,65" fill="#228B22"/>
+                    <!-- Ground -->
+                    <ellipse cx="50" cy="75" rx="35" ry="8" fill="#90EE90"/>
+                    <!-- Inner circle border -->
+                    <circle cx="50" cy="50" r="46" stroke="#fff" stroke-width="1.5" fill="none"/>
+                </svg>
+                <span>Doğancı İş İnsanları</span>
+            </div>
             <ul class="nav-links">
                 <li><a href="index.html">Ana Sayfa</a></li>
                 <li><a href="members.html">Üyeler</a></li>
