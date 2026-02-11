@@ -64,6 +64,7 @@
             border-radius: 10px;
             font-size: 14px;
             transition: border-color 0.3s;
+            box-sizing: border-box;
         }
         
         .form-group input:focus {
@@ -91,6 +92,7 @@
         .btn-login:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
         
         .error-message {
@@ -153,56 +155,58 @@
         </div>
     </div>
 
+    <!-- Supabase önce yüklenmeli -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase Configuration
+        // Supabase yüklendiğinden emin ol
         const SUPABASE_URL = 'https://nxywtyvcqkejvehpnoyw.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54eXd0eXZjcWtlanZlaHBub3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjMzMjEsImV4cCI6MjA4NjIzOTMyMX0.udISw2KZBfiUuXGXHuG0at3byAPchtQi2IGkfdLuECY';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    </script>
-    <script>
+
+        // window.supabase üzerinden erişim
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
         const errorMessage = document.getElementById('errorMessage');
-        
+
         // Sayfa yüklendiğinde oturum kontrolü
         window.addEventListener('load', async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                // Zaten giriş yapılmış, dashboard'a yönlendir
-                window.location.href = 'dashboard.html';
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session) {
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (e) {
+                console.log('Oturum kontrolü:', e);
             }
         });
-        
-        // Giriş formu submit
+
+        // Giriş formu
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            
-            // Butonu devre dışı bırak
+
             loginBtn.disabled = true;
             loginBtn.textContent = 'Giriş yapılıyor...';
             errorMessage.classList.remove('show');
-            
+
             try {
-                const { data, error } = await supabase.auth.signInWithPassword({
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
                     email: email,
                     password: password
                 });
-                
+
                 if (error) throw error;
-                
-                // Başarılı giriş - dashboard'a yönlendir
+
+                // Başarılı giriş
                 window.location.href = 'dashboard.html';
-                
+
             } catch (error) {
                 console.error('Giriş hatası:', error);
-                errorMessage.textContent = 'Giriş başarısız: ' + error.message;
+                errorMessage.textContent = 'Giriş başarısız: ' + (error.message || 'Email veya şifre hatalı.');
                 errorMessage.classList.add('show');
-                
-                // Butonu tekrar aktif et
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Giriş Yap';
             }
