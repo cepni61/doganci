@@ -209,7 +209,7 @@ document.getElementById('memberForm').addEventListener('submit', async (e) => {
             phone: document.getElementById('memberPhone').value || null,
             email: document.getElementById('memberEmail').value || null,
             city: document.getElementById('memberCity').value || null,
-            address: document.getElementById('memberAddress').value || null,
+            ilce: document.getElementById('memberAddress').value || null,
         };
         
         if (photoUrl) {
@@ -266,7 +266,7 @@ async function editMember(id) {
         document.getElementById('memberPhone').value = member.phone || '';
         document.getElementById('memberEmail').value = member.email || '';
         document.getElementById('memberCity').value = member.city || '';
-        document.getElementById('memberAddress').value = member.address || '';
+        document.getElementById('memberAddress').value = member.ilce || '';
         
         if (member.photo_url) {
             document.getElementById('memberPhotoPreview').src = member.photo_url;

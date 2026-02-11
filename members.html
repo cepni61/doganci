@@ -272,7 +272,7 @@
                         <div class="member-name">${member.name}</div>
                         ${member.profession ? `<div class="member-profession">${member.profession}</div>` : ''}
                         ${member.company ? `<div class="member-detail">🏢 ${member.company}</div>` : ''}
-                        ${(member.city || member.address) ? `<div class="member-detail">📍 ${[member.address, member.city].filter(Boolean).join(' / ')}</div>` : ''}
+                        ${(member.city || member.ilce) ? `<div class="member-detail">📍 ${[member.ilce, member.city].filter(Boolean).join(' / ')}</div>` : ''}
                         ${member.phone ? `<a href="tel:${member.phone}" class="phone-link">📞 Ara</a>` : ''}
                     </div>
                 </div>
@@ -290,7 +290,7 @@
                     (m.profession && m.profession.toLowerCase().includes(searchTerm)) ||
                     (m.company && m.company.toLowerCase().includes(searchTerm)) ||
                     (m.city && m.city.toLowerCase().includes(searchTerm)) ||
-                    (m.address && m.address.toLowerCase().includes(searchTerm))
+                    (m.ilce && m.ilce.toLowerCase().includes(searchTerm))
                 );
             }
 
