@@ -205,12 +205,11 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
     <script>
         const SUPABASE_URL = 'https://nxywtyvcqkejvehpnoyw.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54eXd0eXZjcWtlanZlaHBub3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjMzMjEsImV4cCI6MjA4NjIzOTMyMX0.udISw2KZBfiUuXGXHuG0at3byAPchtQi2IGkfdLuECY';
-        const { createClient } = window.supabase;
-        const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let allMembers = [];
 
@@ -219,7 +218,7 @@
             const noResults = document.getElementById('noResults');
 
             try {
-                const { data: members, error } = await db
+                const { data: members, error } = await supabase
                     .from('members')
                     .select('*')
                     .order('name');
