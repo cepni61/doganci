@@ -258,6 +258,8 @@ async function editMember(id) {
         if (error) throw error;
         
         currentMemberId = id;
+        memberPhotoFile = null; // Fotoğraf değişkenini temizle
+
         document.getElementById('memberModalTitle').textContent = 'Üye Düzenle';
         document.getElementById('memberId').value = id;
         document.getElementById('memberName').value = member.name || '';
@@ -267,13 +269,19 @@ async function editMember(id) {
         document.getElementById('memberEmail').value = member.email || '';
         document.getElementById('memberCity').value = member.city || '';
         document.getElementById('memberAddress').value = member.ilce || '';
-        
+
+        // Fotoğraf input'unu temizle
+        document.getElementById('memberPhoto').value = '';
+
         if (member.photo_url) {
             document.getElementById('memberPhotoPreview').src = member.photo_url;
             document.getElementById('memberPhotoPreview').style.display = 'block';
             document.getElementById('photoUploadText').style.display = 'none';
+        } else {
+            document.getElementById('memberPhotoPreview').style.display = 'none';
+            document.getElementById('photoUploadText').style.display = 'block';
         }
-        
+
         document.getElementById('memberModal').classList.add('show');
         
     } catch (error) {
