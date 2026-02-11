@@ -204,12 +204,9 @@ document.getElementById('memberForm').addEventListener('submit', async (e) => {
         
         const memberData = {
             name: document.getElementById('memberName').value,
-            profession: document.getElementById('memberProfession').value,
-            phone: document.getElementById('memberPhone').value,
-            email: document.getElementById('memberEmail').value,
-            company: document.getElementById('memberCompany').value,
-            website: document.getElementById('memberWebsite').value,
-            address: document.getElementById('memberAddress').value,
+            profession: document.getElementById('memberProfession').value || null,
+            company: document.getElementById('memberCompany').value || null,
+            address: document.getElementById('memberAddress').value || null,
         };
         
         if (photoUrl) {
@@ -262,10 +259,7 @@ async function editMember(id) {
         document.getElementById('memberId').value = id;
         document.getElementById('memberName').value = member.name || '';
         document.getElementById('memberProfession').value = member.profession || '';
-        document.getElementById('memberPhone').value = member.phone || '';
-        document.getElementById('memberEmail').value = member.email || '';
         document.getElementById('memberCompany').value = member.company || '';
-        document.getElementById('memberWebsite').value = member.website || '';
         document.getElementById('memberAddress').value = member.address || '';
         
         if (member.photo_url) {

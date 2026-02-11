@@ -480,42 +480,7 @@
             
             <form id="memberForm">
                 <input type="hidden" id="memberId">
-                
-                <div class="form-group">
-                    <label for="memberName">Ad Soyad *</label>
-                    <input type="text" id="memberName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="memberProfession">Meslek</label>
-                    <input type="text" id="memberProfession">
-                </div>
-                
-                <div class="form-group">
-                    <label for="memberPhone">Telefon</label>
-                    <input type="tel" id="memberPhone">
-                </div>
-                
-                <div class="form-group">
-                    <label for="memberEmail">Email</label>
-                    <input type="email" id="memberEmail">
-                </div>
-                
-                <div class="form-group">
-                    <label for="memberCompany">Şirket</label>
-                    <input type="text" id="memberCompany">
-                </div>
-                
-                <div class="form-group">
-                    <label for="memberWebsite">Website</label>
-                    <input type="url" id="memberWebsite">
-                </div>
-                
-                <div class="form-group">
-                    <label for="memberAddress">Adres</label>
-                    <textarea id="memberAddress"></textarea>
-                </div>
-                
+
                 <div class="form-group">
                     <label>Fotoğraf</label>
                     <div class="photo-upload" onclick="document.getElementById('memberPhoto').click()">
@@ -526,6 +491,26 @@
                         </div>
                         <img id="memberPhotoPreview" class="photo-preview" style="display: none;">
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="memberName">İsim *</label>
+                    <input type="text" id="memberName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="memberProfession">Meslek</label>
+                    <input type="text" id="memberProfession">
+                </div>
+
+                <div class="form-group">
+                    <label for="memberCompany">Şirket</label>
+                    <input type="text" id="memberCompany">
+                </div>
+
+                <div class="form-group">
+                    <label for="memberAddress">Adres</label>
+                    <input type="text" id="memberAddress">
                 </div>
                 
                 <button type="submit" class="btn-primary" style="width: 100%;">
@@ -580,8 +565,12 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../js/supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script>
+        const SUPABASE_URL = 'https://nxywtyvcqkejvehpnoyw.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54eXd0eXZjcWtlanZlaHBub3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjMzMjEsImV4cCI6MjA4NjIzOTMyMX0.udISw2KZBfiUuXGXHuG0at3byAPchtQi2IGkfdLuECY';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
     <script src="admin.js"></script>
 </body>
 </html>
