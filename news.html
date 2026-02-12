@@ -233,7 +233,7 @@
                 
                 grid.style.display = 'grid';
                 grid.innerHTML = news.map(item => {
-                    const date = new Date(item.published_at);
+                    const date = new Date(item.created_at || item.published_at);
                     const formattedDate = date.toLocaleDateString('tr-TR', {
                         day: 'numeric',
                         month: 'long',
