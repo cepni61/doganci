@@ -210,6 +210,7 @@ document.getElementById('memberForm').addEventListener('submit', async (e) => {
             email: document.getElementById('memberEmail').value || null,
             city: document.getElementById('memberCity').value || null,
             ilce: document.getElementById('memberAddress').value || null,
+            keywords: document.getElementById('memberKeywords').value || null,
         };
         
         if (photoUrl) {
@@ -269,6 +270,7 @@ async function editMember(id) {
         document.getElementById('memberEmail').value = member.email || '';
         document.getElementById('memberCity').value = member.city || '';
         document.getElementById('memberAddress').value = member.ilce || '';
+        document.getElementById('memberKeywords').value = member.keywords || '';
 
         // Fotoğraf input'unu temizle
         document.getElementById('memberPhoto').value = '';
