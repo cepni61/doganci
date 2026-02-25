@@ -375,6 +375,22 @@
         }
 
         window.addEventListener('load', loadStats);
+
+        // Eski service worker cache'ini temizle ve güncelle
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                registrations.forEach(reg => {
+                    reg.update();
+                });
+            });
+            caches.keys().then(names => {
+                names.forEach(name => {
+                    if (name !== 'doganci-platform-v3') {
+                        caches.delete(name);
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>
