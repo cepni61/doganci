@@ -183,7 +183,7 @@
 
         <div class="search-filter-container">
             <div class="search-box">
-                <input type="text" id="searchInput" class="search-input" placeholder="🔍 İsim, şirket veya şehir ara...">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 İsim, meslek, hizmet ara... (örn: musluk tamir)">
             </div>
             <div class="filter-box">
                 <select id="professionFilter" class="filter-select">
@@ -290,7 +290,8 @@
                     (m.profession && m.profession.toLowerCase().includes(searchTerm)) ||
                     (m.company && m.company.toLowerCase().includes(searchTerm)) ||
                     (m.city && m.city.toLowerCase().includes(searchTerm)) ||
-                    (m.ilce && m.ilce.toLowerCase().includes(searchTerm))
+                    (m.ilce && m.ilce.toLowerCase().includes(searchTerm)) ||
+                    (m.keywords && m.keywords.toLowerCase().includes(searchTerm))
                 );
             }
 
