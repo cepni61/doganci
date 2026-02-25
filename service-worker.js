@@ -1,4 +1,4 @@
-const CACHE_NAME = 'doganci-platform-v1';
+const CACHE_NAME = 'doganci-platform-v2';
 const urlsToCache = [
     './',
     './index.html',
@@ -42,35 +42,26 @@ self.addEventListener('activate', event => {
     self.clients.claim();
 });
 
-// Fetch Event - Cache First Strategy
+// Fetch Event - Network First Strategy
 self.addEventListener('fetch', event => {
     event.respondWith(
-        caches.match(event.request)
+        fetch(event.request)
             .then(response => {
-                // Cache'de varsa döndür
-                if (response) {
-                    return response;
+                // Geçerli bir response ise cache'e kaydet
+                if (response && response.status === 200 && response.type === 'basic') {
+                    const responseToCache = response.clone();
+                    caches.open(CACHE_NAME)
+                        .then(cache => {
+                            cache.put(event.request, responseToCache);
+                        });
                 }
-                
-                // Cache'de yoksa network'ten getir
-                return fetch(event.request)
+                return response;
+            })
+            .catch(() => {
+                // Network hatası - offline ise cache'den döndür
+                return caches.match(event.request)
                     .then(response => {
-                        // Geçerli bir response değilse direkt döndür
-                        if (!response || response.status !== 200 || response.type !== 'basic') {
-                            return response;
-                        }
-                        
-                        // Response'u clone'la ve cache'e ekle
-                        const responseToCache = response.clone();
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-                                cache.put(event.request, responseToCache);
-                            });
-                        
-                        return response;
-                    })
-                    .catch(() => {
-                        // Network hatası - offline ise ana sayfayı döndür
+                        if (response) return response;
                         if (event.request.mode === 'navigate') {
                             return caches.match('./index.html');
                         }
