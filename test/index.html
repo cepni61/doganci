@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0F172A">
+    <title>Doğancı İş İnsanları</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F172A;
+            --primary-light: #1E293B;
+            --secondary: #0EA5E9;
+            --secondary-dark: #0284C7;
+            --accent: #B45309;
+            --accent-light: #D97706;
+            --background: #F1F5F9;
+            --surface: #FFFFFF;
+            --surface-elevated: #FFFFFF;
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --text-tertiary: #94A3B8;
+            --border: #E2E8F0;
+            --success: #10B981;
+            --error: #EF4444;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 85px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 20px;
+            padding-top: max(12px, env(safe-area-inset-top));
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-container {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--secondary) 0%, #06B6D4 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .header-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .header-btn:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .header-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 8px;
+            height: 8px;
+            background: var(--error);
+            border-radius: var(--radius-full);
+            border: 2px solid var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, #334155 100%);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -30%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(180, 83, 9, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-greeting {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 24px;
+        }
+
+        .hero-stat {
+            text-align: left;
+        }
+
+        .hero-stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--secondary);
+            line-height: 1;
+            display: block;
+        }
+
+        .hero-stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .quick-actions::-webkit-scrollbar {
+            display: none;
+        }
+
+        .quick-action {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quick-action:active {
+            transform: scale(0.95);
+        }
+
+        .quick-action-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .quick-action-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .quick-action:nth-child(1) .quick-action-icon {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+
+        .quick-action:nth-child(2) .quick-action-icon {
+            background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
+        }
+
+        .quick-action:nth-child(3) .quick-action-icon {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+        }
+
+        .quick-action:nth-child(4) .quick-action-icon {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        }
+
+        .quick-action-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* Section Headers */
+        .section {
+            margin-top: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .section-link {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .section-link:active {
+            opacity: 0.7;
+        }
+
+        /* News Cards */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .news-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid var(--border);
+        }
+
+        .news-card:active {
+            transform: scale(0.98);
+        }
+
+        .news-card-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
+        }
+
+        .news-card-content {
+            padding: 16px;
+        }
+
+        .news-card-category {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            margin-bottom: 10px;
+        }
+
+        .news-card-category.danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+
+        .news-card-category.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .news-card-category.info {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--secondary);
+        }
+
+        .news-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+        }
+
+        .news-card-excerpt {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .news-card-date {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-card-date svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .news-card-author {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* Members Preview */
+        .members-scroll {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .members-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .member-card {
+            flex-shrink: 0;
+            width: 120px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .member-card:active {
+            transform: scale(0.95);
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-full);
+            object-fit: cover;
+            margin: 0 auto 10px;
+            border: 3px solid var(--surface);
+            box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
+        }
+
+        .member-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .member-job {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-md);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-card {
+            height: 280px;
+            margin-bottom: 16px;
+        }
+
+        .skeleton-text {
+            height: 16px;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-text.short {
+            width: 60%;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 8px 16px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            z-index: 100;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-around;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            background: none;
+            border: none;
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .nav-item.active .nav-icon {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .nav-item.active .nav-icon svg {
+            fill: white;
+        }
+
+        .nav-item.active .nav-label {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--background);
+            transition: var(--transition);
+        }
+
+        .nav-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--text-tertiary);
+            transition: var(--transition);
+        }
+
+        .nav-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            transition: var(--transition);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px dashed var(--border);
+        }
+
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: var(--background);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--text-tertiary);
+        }
+
+        .empty-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Pull to Refresh */
+        .pull-refresh {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-tertiary);
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            body {
+                padding-bottom: 0;
+            }
+
+            .app-header {
+                border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+            }
+
+            .main-content {
+                padding-top: 20px;
+            }
+
+            .bottom-nav {
+                display: none;
+            }
+
+            .news-card {
+                display: flex;
+            }
+
+            .news-card-image {
+                width: 200px;
+                height: auto;
+                min-height: 180px;
+            }
+
+            .news-card-content {
+                flex: 1;
+            }
+        }
+
+        /* Hide on desktop */
+        @media (min-width: 768px) {
+            .bottom-nav {
+                display: none !important;
+            }
+
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        /* App Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 100px;
+            left: 16px;
+            right: 16px;
+            background: var(--primary);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-xl);
+            z-index: 99;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .install-prompt-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--secondary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .install-prompt-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .install-prompt-text {
+            flex: 1;
+        }
+
+        .install-prompt-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .install-prompt-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .install-prompt-btn {
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .install-prompt-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (min-width: 768px) {
+            .install-prompt {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo-container">
+                    <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="50" cy="50" r="48" fill="white"/>
+                        <path d="M30 60 L50 30 L70 60 Z" fill="#0F172A"/>
+                        <path d="M45 40 L50 30 L55 40 Z" fill="white"/>
+                        <polygon points="35,65 38,55 41,65" fill="#10B981"/>
+                        <polygon points="52,65 55,55 58,65" fill="#10B981"/>
+                        <ellipse cx="50" cy="75" rx="35" ry="8" fill="#0EA5E9"/>
+                    </svg>
+                </div>
+                <span class="header-title">Doğancı</span>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" aria-label="Bildirimler">
+                    <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+                    <span class="notification-badge"></span>
+                </button>
+                <button class="header-btn" aria-label="Ayarlar">
+                    <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-card">
+                <p class="hero-greeting" id="greeting">Hoş geldiniz</p>
+                <h1 class="hero-title">Doğancı İş İnsanları Derneği</h1>
+                <p class="hero-subtitle">Birlikte daha güçlüyüz! Türkiye'nin dört bir yanındaki Doğancılı iş insanları bir arada.</p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-value" id="memberCount">0</span>
+                        <span class="hero-stat-label">Aktif Üye</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value" id="newsCount">0</span>
+                        <span class="hero-stat-label">Haber & Duyuru</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <a href="members.html" class="quick-action">
+                <div class="quick-action-icon">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                </div>
+                <span class="quick-action-label">Üyeler</span>
+            </a>
+            <a href="news.html" class="quick-action">
+                <div class="quick-action-icon">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                </div>
+                <span class="quick-action-label">Haberler</span>
+            </a>
+            <div class="quick-action">
+                <div class="quick-action-icon">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <span class="quick-action-label">Etkinlikler</span>
+            </div>
+            <div class="quick-action">
+                <div class="quick-action-icon">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </div>
+                <span class="quick-action-label">İletişim</span>
+            </div>
+        </section>
+
+        <!-- Latest Members -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Yeni Üyeler</h2>
+                <a href="members.html" class="section-link">
+                    Tümü
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </a>
+            </div>
+            <div class="members-scroll" id="membersList">
+                <div class="skeleton" style="width: 120px; height: 130px;"></div>
+                <div class="skeleton" style="width: 120px; height: 130px;"></div>
+                <div class="skeleton" style="width: 120px; height: 130px;"></div>
+                <div class="skeleton" style="width: 120px; height: 130px;"></div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Son Haberler</h2>
+                <a href="news.html" class="section-link">
+                    Tümü
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </a>
+            </div>
+            <div class="news-list" id="newsList">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-content">
+            <a href="index.html" class="nav-item active">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                </div>
+                <span class="nav-label">Ana Sayfa</span>
+            </a>
+            <a href="members.html" class="nav-item">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                </div>
+                <span class="nav-label">Üyeler</span>
+            </a>
+            <a href="news.html" class="nav-item">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                </div>
+                <span class="nav-label">Haberler</span>
+            </a>
+            <a href="admin/index.html" class="nav-item">
+                <div class="nav-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <span class="nav-label">Hesabım</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Install Prompt -->
+    <div class="install-prompt" id="installPrompt">
+        <div class="install-prompt-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+        </div>
+        <div class="install-prompt-text">
+            <div class="install-prompt-title">Uygulama olarak ekle</div>
+            <div class="install-prompt-subtitle">Ana ekranınıza ekleyin</div>
+        </div>
+        <button class="install-prompt-btn" id="installBtn">Ekle</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://nxywtyvcqkejvehpnoyw.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54eXd0eXZjcWtlanZlaHBub3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjMzMjEsImV4cCI6MjA4NjIzOTMyMX0.udISw2KZBfiUuXGXHuG0at3byAPchtQi2IGkfdLuECY';
+        const { createClient } = window.supabase;
+        const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Dynamic greeting
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const greeting = document.getElementById('greeting');
+            if (hour < 12) greeting.textContent = 'Günaydın';
+            else if (hour < 18) greeting.textContent = 'İyi günler';
+            else greeting.textContent = 'İyi akşamlar';
+        }
+        updateGreeting();
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const { count: memberCount } = await db
+                    .from('members')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (memberCount !== null) {
+                    document.getElementById('memberCount').textContent = memberCount;
+                }
+
+                const { count: newsCount } = await db
+                    .from('news')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (newsCount !== null) {
+                    document.getElementById('newsCount').textContent = newsCount;
+                }
+            } catch (error) {
+                console.error('İstatistikler yüklenirken hata:', error);
+            }
+        }
+
+        // Load latest members
+        async function loadLatestMembers() {
+            try {
+                const { data: members, error } = await db
+                    .from('members')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(6);
+
+                if (error) throw error;
+
+                const container = document.getElementById('membersList');
+                
+                if (!members || members.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="width: 100%;">
+                            <div class="empty-icon">
+                                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/></svg>
+                            </div>
+                            <div class="empty-title">Henüz üye yok</div>
+                            <div class="empty-text">İlk üyemiz olun</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = members.map(member => `
+                    <div class="member-card">
+                        <img src="${member.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(member.name || 'Üye') + '&background=0EA5E9&color=fff&size=160'}" 
+                             alt="${member.name}" 
+                             class="member-avatar"
+                             onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name || 'Üye')}&background=0EA5E9&color=fff&size=160'">
+                        <div class="member-name">${member.name || 'İsimsiz'}</div>
+                        <div class="member-job">${member.profession || 'Üye'}</div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Üyeler yüklenirken hata:', error);
+                document.getElementById('membersList').innerHTML = '<div class="empty-state" style="width:100%"><div class="empty-text">Üyeler yüklenemedi</div></div>';
+            }
+        }
+
+        // Load latest news
+        async function loadLatestNews() {
+            try {
+                const { data: news, error } = await db
+                    .from('news')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(5);
+
+                if (error) throw error;
+
+                const container = document.getElementById('newsList');
+                
+                if (!news || news.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            </div>
+                            <div class="empty-title">Henüz haber yok</div>
+                            <div class="empty-text">Güncel duyurular için takipte kalın</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = news.map((item, index) => {
+                    const categories = ['danger', 'success', 'info'];
+                    const category = categories[index % categories.length];
+                    const categoryLabels = ['Duyuru', 'Etkinlik', 'Haber'];
+                    
+                    return `
+                        <div class="news-card">
+                            <img src="${item.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=300&fit=crop'}" 
+                                 alt="${item.title}" 
+                                 class="news-card-image"
+                                 onerror="this.src='https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=300&fit=crop'">
+                            <div class="news-card-content">
+                                <span class="news-card-category ${category}">${categoryLabels[index % categoryLabels.length]}</span>
+                                <h3 class="news-card-title">${item.title || 'Başlıksız'}</h3>
+                                <p class="news-card-excerpt">${item.content || 'İçerik bulunmuyor...'}</p>
+                                <div class="news-card-footer">
+                                    <span class="news-card-date">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+                                        ${item.date || new Date(item.created_at).toLocaleDateString('tr-TR')}
+                                    </span>
+                                    <span class="news-card-author">${item.author || 'Doğancı'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Haberler yüklenirken hata:', error);
+                document.getElementById('newsList').innerHTML = '<div class="empty-state" style="width:100%"><div class="empty-text">Haberler yüklenemedi</div></div>';
+            }
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            loadStats();
+            loadLatestMembers();
+            loadLatestNews();
+        });
+
+        // PWA Install
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installPrompt.style.display = 'flex';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installPrompt.style.display = 'none';
+            }
+        });
+
+        // Hide install prompt after 3 days
+        const installHidden = localStorage.getItem('installPromptHidden');
+        if (installHidden) {
+            installPrompt.style.display = 'none';
+        } else {
+            installBtn.addEventListener('click', () => {
+                localStorage.setItem('installPromptHidden', 'true');
+            });
+        }
+    </script>
+</body>
+</html>
