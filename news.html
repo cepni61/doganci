@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haberler - Doganci Is Insanlari</title>
+    <title>Haberler - Doğancı İş İnsanları</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="icons/favicon.ico">
     <meta name="theme-color" content="#e05a00">
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Ana icerige atla</a>
+    <a href="#main-content" class="skip-link">Ana içeriğe atla</a>
 
     <!-- Navbar -->
     <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
@@ -26,14 +26,14 @@
                     <ellipse cx="50" cy="75" rx="35" ry="8" fill="#90EE90"/>
                     <circle cx="50" cy="50" r="46" stroke="#fff" stroke-width="1.5" fill="none"/>
                 </svg>
-                <span>Doganci Is Insanlari</span>
+                <span>Doğancı İş İnsanları</span>
             </a>
-            <button class="hamburger" aria-label="Menuyu ac/kapa" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='false');document.getElementById('navLinks').classList.toggle('open')">
+            <button class="hamburger" aria-label="Menüyü aç/kapa" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='false');document.getElementById('navLinks').classList.toggle('open')">
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="members.html">Uyeler</a></li>
+                <li><a href="members.html">Üyeler</a></li>
                 <li><a href="news.html" class="active">Haberler</a></li>
             </ul>
         </div>
@@ -43,13 +43,13 @@
         <div class="page-container">
             <div class="page-header">
                 <h2>Haberler ve Duyurular</h2>
-                <p>En son gelismeler ve onemli duyurular</p>
+                <p>En son gelişmeler ve önemli duyurular</p>
             </div>
 
-            <div id="loading" class="loading" role="status">Yukleniyor...</div>
+            <div id="loading" class="loading" role="status">Yükleniyor...</div>
             <div id="noNews" class="no-news" style="display: none;" role="status">
                 <span aria-hidden="true">&#128240;</span>
-                <p>Henuz haber eklenmemis.</p>
+                <p>Henüz haber eklenmemiş.</p>
             </div>
 
             <div id="newsGrid" class="news-grid" style="display: none;"></div>
@@ -125,7 +125,7 @@
                 }).join('');
 
             } catch (error) {
-                console.error('Haberler yukleme hatasi:', error);
+                console.error('Haberler yükleme hatası:', error);
                 loading.textContent = 'Hata: ' + error.message;
             }
         }

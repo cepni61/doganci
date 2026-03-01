@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uyeler - Doganci Is Insanlari</title>
+    <title>Üyeler - Doğancı İş İnsanları</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="icons/favicon.ico">
     <meta name="theme-color" content="#e05a00">
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Ana icerige atla</a>
+    <a href="#main-content" class="skip-link">Ana içeriğe atla</a>
 
     <!-- Navbar -->
     <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
@@ -26,14 +26,14 @@
                     <ellipse cx="50" cy="75" rx="35" ry="8" fill="#90EE90"/>
                     <circle cx="50" cy="50" r="46" stroke="#fff" stroke-width="1.5" fill="none"/>
                 </svg>
-                <span>Doganci Is Insanlari</span>
+                <span>Doğancı İş İnsanları</span>
             </a>
-            <button class="hamburger" aria-label="Menuyu ac/kapa" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='false');document.getElementById('navLinks').classList.toggle('open')">
+            <button class="hamburger" aria-label="Menüyü aç/kapa" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='false');document.getElementById('navLinks').classList.toggle('open')">
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="members.html" class="active">Uyeler</a></li>
+                <li><a href="members.html" class="active">Üyeler</a></li>
                 <li><a href="news.html">Haberler</a></li>
             </ul>
         </div>
@@ -41,31 +41,31 @@
 
     <main id="main-content">
         <div class="page-container">
-            <h1 class="page-title">Is Insanlarimiz</h1>
+            <h1 class="page-title">İş İnsanlarımız</h1>
 
             <div class="search-filter-container">
                 <div class="search-box">
-                    <label for="searchInput" class="sr-only">Uye ara</label>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Isim, meslek, hizmet ara... (orn: musluk tamir)">
+                    <label for="searchInput" class="sr-only">Üye ara</label>
+                    <input type="text" id="searchInput" class="search-input" placeholder="İsim, meslek, hizmet ara... (örn: musluk tamir)">
                 </div>
                 <div class="filter-box">
-                    <label for="professionFilter" class="sr-only">Meslege gore filtrele</label>
+                    <label for="professionFilter" class="sr-only">Mesleğe göre filtrele</label>
                     <select id="professionFilter" class="filter-select">
-                        <option value="">Tum Meslekler</option>
+                        <option value="">Tüm Meslekler</option>
                     </select>
                 </div>
                 <div class="result-counter" aria-live="polite">
-                    <span id="resultCount">0</span> kisi
+                    <span id="resultCount">0</span> kişi
                 </div>
             </div>
 
-            <div id="loading" class="loading" role="status">Yukleniyor...</div>
+            <div id="loading" class="loading" role="status">Yükleniyor...</div>
 
             <div id="noResults" class="no-results" style="display: none;" role="status">
-                <p>Aradiginiz kriterlere uygun uye bulunamadi.</p>
+                <p>Aradığınız kriterlere uygun üye bulunamadı.</p>
             </div>
 
-            <div id="membersList" class="members-list" role="list" aria-label="Uye listesi"></div>
+            <div id="membersList" class="members-list" role="list" aria-label="Üye listesi"></div>
         </div>
     </main>
 
@@ -151,7 +151,7 @@
                         ${profession ? `<div class="member-profession">${profession}</div>` : ''}
                         ${company ? `<div class="member-detail">${company}</div>` : ''}
                         ${(city || ilce) ? `<div class="member-detail">${[ilce, city].filter(Boolean).join(' / ')}</div>` : ''}
-                        ${phone ? `<a href="tel:${phone}" class="phone-link" aria-label="${name} kisisini ara">Ara</a>` : ''}
+                        ${phone ? `<a href="tel:${phone}" class="phone-link" aria-label="${name} kişisini ara">Ara</a>` : ''}
                     </div>
                 </div>`;
             }).join('');

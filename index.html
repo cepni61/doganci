@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doganci Is Insanlari Dernegi</title>
+    <title>Doğancı İş İnsanları Derneği</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/favicon.ico">
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
     <meta name="theme-color" content="#e05a00">
-    <meta name="description" content="Doganci koyunden gelen is insanlarinin bulusma noktasi. Birlikte daha gucluyuz!">
+    <meta name="description" content="Doğancı köyünden gelen iş insanlarının buluşma noktası. Birlikte daha güçlüyüz!">
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Ana icerige atla</a>
+    <a href="#main-content" class="skip-link">Ana içeriğe atla</a>
 
     <!-- Navbar -->
     <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
@@ -29,14 +29,14 @@
                     <ellipse cx="50" cy="75" rx="35" ry="8" fill="#90EE90"/>
                     <circle cx="50" cy="50" r="46" stroke="#fff" stroke-width="1.5" fill="none"/>
                 </svg>
-                <span>Doganci Is Insanlari</span>
+                <span>Doğancı İş İnsanları</span>
             </a>
-            <button class="hamburger" aria-label="Menuyu ac/kapa" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='false');document.getElementById('navLinks').classList.toggle('open')">
+            <button class="hamburger" aria-label="Menüyü aç/kapa" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='false');document.getElementById('navLinks').classList.toggle('open')">
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="active">Ana Sayfa</a></li>
-                <li><a href="members.html">Uyeler</a></li>
+                <li><a href="members.html">Üyeler</a></li>
                 <li><a href="news.html">Haberler</a></li>
             </ul>
         </div>
@@ -45,16 +45,16 @@
     <!-- Hero Section -->
     <main id="main-content">
         <section class="hero">
-            <h1>Doganci Is Insanlari Dernegi</h1>
-            <p>Doganci koyunden gelen is insanlarinin bulusma noktasi. Birlikte daha gucluyuz!</p>
+            <h1>Doğancı İş İnsanları Derneği</h1>
+            <p>Doğancı köyünden gelen iş insanlarının buluşma noktası. Birlikte daha güçlüyüz!</p>
             <div class="cta-buttons">
-                <a href="members.html" class="btn btn-primary">Uyeleri Goruntule</a>
-                <a href="news.html" class="btn btn-secondary">Haberleri Incele</a>
+                <a href="members.html" class="btn btn-primary">Üyeleri Görüntüle</a>
+                <a href="news.html" class="btn btn-secondary">Haberleri İncele</a>
             </div>
         </section>
 
         <!-- Features -->
-        <section class="features" aria-label="Degerlerimiz">
+        <section class="features" aria-label="Değerlerimiz">
             <div class="feature-card">
                 <svg class="feature-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <circle cx="20" cy="18" r="6" fill="#888"/>
@@ -77,7 +77,7 @@
                     <path d="M4 44c0-5.5 4.5-10 10-10" stroke="#888" stroke-width="2.5" fill="none"/>
                     <path d="M60 44c0-5.5-4.5-10-10-10" stroke="#888" stroke-width="2.5" fill="none"/>
                 </svg>
-                <h3>Dayanisma</h3>
+                <h3>Dayanışma</h3>
             </div>
             <div class="feature-card">
                 <svg class="feature-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -87,16 +87,16 @@
                     <line x1="36" y1="30" x2="44" y2="30" stroke="#888" stroke-width="2" stroke-linecap="round"/>
                     <line x1="16" y1="40" x2="48" y2="40" stroke="#888" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-                <h3>Kultur</h3>
+                <h3>Kültür</h3>
             </div>
         </section>
 
         <!-- Stats Section -->
-        <section class="stats" aria-label="Istatistikler">
+        <section class="stats" aria-label="İstatistikler">
             <div class="stats-container">
                 <div class="stat-item">
                     <h2 id="memberCount" aria-live="polite">0</h2>
-                    <p>Aktif Uye</p>
+                    <p>Aktif Üye</p>
                 </div>
                 <div class="stat-item">
                     <h2 id="newsCount" aria-live="polite">0</h2>
@@ -109,8 +109,8 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; <span id="footerYear"></span> Doganci Is Insanlari Dernegi</p>
-            <p>Tum haklari saklidir.</p>
+            <p>&copy; <span id="footerYear"></span> Doğancı İş İnsanları Derneği</p>
+            <p>Tüm hakları saklıdır.</p>
         </div>
     </footer>
 
@@ -142,7 +142,7 @@
                 }
 
             } catch (error) {
-                console.error('Istatistikler yuklenirken hata:', error);
+                console.error('İstatistikler yüklenirken hata:', error);
             }
         }
 
