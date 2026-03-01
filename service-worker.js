@@ -1,14 +1,12 @@
-const CACHE_NAME = 'doganci-platform-v3';
+const CACHE_NAME = 'doganci-platform-v4';
 const urlsToCache = [
     './',
     './index.html',
     './members.html',
     './news.html',
-    './style.css',
-    './app.js',
+    './css/style.css',
+    './js/supabase-config.js',
     './manifest.json',
-    './members.csv',
-    './news.csv',
     './icons/icon-192.png',
     './icons/icon-512.png'
 ];

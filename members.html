@@ -3,213 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Üyeler - Doğancı İş İnsanları</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: #f5f5f5;
-            color: #333;
-        }
-
-        .page-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        .back-link {
-            display: inline-block;
-            color: #e05a00;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            margin-bottom: 25px;
-            transition: color 0.3s;
-        }
-        .back-link:hover { color: #c74f00; }
-
-        .page-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #e05a00;
-            background-color: #ffffff;
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 35px;
-            box-shadow: 0 2px 10px rgba(224, 90, 0, 0.15);
-        }
-
-        .search-filter-container {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .search-box { flex: 2; min-width: 250px; }
-
-        .search-input {
-            width: 100%;
-            padding: 13px 16px;
-            font-size: 0.95rem;
-            border: 1.5px solid #e0e0e0;
-            border-radius: 10px;
-            background: #fff;
-            color: #333;
-            transition: border-color 0.3s;
-        }
-        .search-input:focus { outline: none; border-color: #e05a00; }
-        .search-input::placeholder { color: #aaa; }
-
-        .filter-box { flex: 1; min-width: 180px; }
-
-        .filter-select {
-            width: 100%;
-            padding: 13px 16px;
-            font-size: 0.95rem;
-            border: 1.5px solid #e0e0e0;
-            border-radius: 10px;
-            background: #fff;
-            color: #333;
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 36px;
-            transition: border-color 0.3s;
-        }
-        .filter-select:focus { outline: none; border-color: #e05a00; }
-
-        .result-counter {
-            white-space: nowrap;
-            font-size: 0.95rem;
-            color: #666;
-        }
-        .result-counter span { font-weight: 700; color: #e05a00; }
-
-        .members-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .member-card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.07);
-            padding: 20px 25px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .member-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.11);
-        }
-
-        .member-photo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            flex-shrink: 0;
-            background: #eee;
-        }
-
-        .member-photo-placeholder {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #e05a00, #c74f00);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            flex-shrink: 0;
-        }
-
-        .member-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .member-name { font-size: 1.15rem; font-weight: 700; color: #222; }
-        .member-profession { font-size: 0.95rem; color: #e05a00; font-weight: 600; }
-        .member-detail { font-size: 0.88rem; color: #777; }
-
-        .phone-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: #e05a00;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-top: 4px;
-            transition: color 0.3s;
-        }
-        .phone-link:hover { color: #c74f00; }
-
-        .loading, .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-            font-size: 1rem;
-        }
-
-        @media (max-width: 600px) {
-            .page-title { font-size: 1.8rem; }
-            .search-filter-container { flex-direction: column; align-items: stretch; }
-            .result-counter { text-align: center; }
-            .member-card { flex-direction: column; align-items: center; text-align: center; }
-            .phone-link { justify-content: center; }
-        }
-    </style>
+    <title>Uyeler - Doganci Is Insanlari</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="icons/favicon.ico">
+    <meta name="theme-color" content="#e05a00">
 </head>
 <body>
-    <div class="page-container">
+    <a href="#main-content" class="skip-link">Ana icerige atla</a>
 
-        <a href="index.html" class="back-link">← Ana Sayfaya Dön</a>
-
-        <h1 class="page-title">İş İnsanlarımız</h1>
-
-        <div class="search-filter-container">
-            <div class="search-box">
-                <input type="text" id="searchInput" class="search-input" placeholder="🔍 İsim, meslek, hizmet ara... (örn: musluk tamir)">
-            </div>
-            <div class="filter-box">
-                <select id="professionFilter" class="filter-select">
-                    <option value="">💼 Tüm Meslekler</option>
-                </select>
-            </div>
-            <div class="result-counter">
-                <span id="resultCount">0</span> kişi
-            </div>
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <circle cx="50" cy="50" r="48" fill="#4E9FD1" stroke="#00CED1" stroke-width="3"/>
+                    <path d="M30 60 L50 30 L70 60 Z" fill="#8B4513"/>
+                    <path d="M45 40 L50 30 L55 40 Z" fill="#fff"/>
+                    <polygon points="35,65 38,55 41,65" fill="#228B22"/>
+                    <polygon points="42,65 45,55 48,65" fill="#228B22"/>
+                    <polygon points="52,65 55,55 58,65" fill="#228B22"/>
+                    <polygon points="59,65 62,55 65,65" fill="#228B22"/>
+                    <ellipse cx="50" cy="75" rx="35" ry="8" fill="#90EE90"/>
+                    <circle cx="50" cy="50" r="46" stroke="#fff" stroke-width="1.5" fill="none"/>
+                </svg>
+                <span>Doganci Is Insanlari</span>
+            </a>
+            <button class="hamburger" aria-label="Menuyu ac/kapa" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='false');document.getElementById('navLinks').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="members.html" class="active">Uyeler</a></li>
+                <li><a href="news.html">Haberler</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <div id="loading" class="loading">Yükleniyor...</div>
+    <main id="main-content">
+        <div class="page-container">
+            <h1 class="page-title">Is Insanlarimiz</h1>
 
-        <div id="noResults" class="no-results" style="display: none;">
-            <p>🔍 Aradığınız kriterlere uygun üye bulunamadı.</p>
+            <div class="search-filter-container">
+                <div class="search-box">
+                    <label for="searchInput" class="sr-only">Uye ara</label>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Isim, meslek, hizmet ara... (orn: musluk tamir)">
+                </div>
+                <div class="filter-box">
+                    <label for="professionFilter" class="sr-only">Meslege gore filtrele</label>
+                    <select id="professionFilter" class="filter-select">
+                        <option value="">Tum Meslekler</option>
+                    </select>
+                </div>
+                <div class="result-counter" aria-live="polite">
+                    <span id="resultCount">0</span> kisi
+                </div>
+            </div>
+
+            <div id="loading" class="loading" role="status">Yukleniyor...</div>
+
+            <div id="noResults" class="no-results" style="display: none;" role="status">
+                <p>Aradiginiz kriterlere uygun uye bulunamadi.</p>
+            </div>
+
+            <div id="membersList" class="members-list" role="list" aria-label="Uye listesi"></div>
         </div>
-
-        <div id="membersList" class="members-list"></div>
-
-    </div>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js"></script>
     <script>
-        const SUPABASE_URL = 'https://nxywtyvcqkejvehpnoyw.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54eXd0eXZjcWtlanZlaHBub3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjMzMjEsImV4cCI6MjA4NjIzOTMyMX0.udISw2KZBfiUuXGXHuG0at3byAPchtQi2IGkfdLuECY';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // XSS korumasi - HTML karakterlerini temizle
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         let allMembers = [];
 
@@ -263,20 +132,29 @@
             }
 
             noResults.style.display = 'none';
-            list.innerHTML = members.map(member => `
-                <div class="member-card">
-                    ${member.photo_url
-                        ? `<img src="${member.photo_url}" class="member-photo" alt="${member.name}" onerror="this.style.display='none'">`
-                        : `<div class="member-photo-placeholder">👤</div>`}
+            list.innerHTML = members.map(member => {
+                const name = escapeHtml(member.name);
+                const profession = escapeHtml(member.profession);
+                const company = escapeHtml(member.company);
+                const city = escapeHtml(member.city);
+                const ilce = escapeHtml(member.ilce);
+                const phone = escapeHtml(member.phone);
+                const photoUrl = member.photo_url ? escapeHtml(member.photo_url) : '';
+
+                return `
+                <div class="member-card" role="listitem">
+                    ${photoUrl
+                        ? `<img src="${photoUrl}" class="member-photo" alt="${name}" loading="lazy" onerror="this.style.display='none'">`
+                        : `<div class="member-photo-placeholder" aria-hidden="true">&#128100;</div>`}
                     <div class="member-info">
-                        <div class="member-name">${member.name}</div>
-                        ${member.profession ? `<div class="member-profession">${member.profession}</div>` : ''}
-                        ${member.company ? `<div class="member-detail">🏢 ${member.company}</div>` : ''}
-                        ${(member.city || member.ilce) ? `<div class="member-detail">📍 ${[member.ilce, member.city].filter(Boolean).join(' / ')}</div>` : ''}
-                        ${member.phone ? `<a href="tel:${member.phone}" class="phone-link">📞 Ara</a>` : ''}
+                        <div class="member-name">${name}</div>
+                        ${profession ? `<div class="member-profession">${profession}</div>` : ''}
+                        ${company ? `<div class="member-detail">${company}</div>` : ''}
+                        ${(city || ilce) ? `<div class="member-detail">${[ilce, city].filter(Boolean).join(' / ')}</div>` : ''}
+                        ${phone ? `<a href="tel:${phone}" class="phone-link" aria-label="${name} kisisini ara">Ara</a>` : ''}
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
         function filterMembers() {
@@ -305,22 +183,6 @@
         document.getElementById('searchInput').addEventListener('input', filterMembers);
         document.getElementById('professionFilter').addEventListener('change', filterMembers);
         window.addEventListener('load', loadMembers);
-
-        // Eski service worker cache'ini temizle ve güncelle
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(registrations => {
-                registrations.forEach(reg => {
-                    reg.update();
-                });
-            });
-            caches.keys().then(names => {
-                names.forEach(name => {
-                    if (name !== 'doganci-platform-v3') {
-                        caches.delete(name);
-                    }
-                });
-            });
-        }
     </script>
 </body>
 </html>

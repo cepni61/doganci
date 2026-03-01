@@ -34,10 +34,16 @@ document.querySelectorAll('.nav-link').forEach(link => {
             const section = link.getAttribute('data-section');
             if (section) {
                 showSection(section);
-                
+
                 // Active state
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
+
+                // Mobilde sidebar'i kapa
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                if (sidebar) sidebar.classList.remove('open');
+                if (overlay) overlay.classList.remove('show');
             }
         }
     });
@@ -237,10 +243,11 @@ document.getElementById('memberForm').addEventListener('submit', async (e) => {
         closeMemberModal();
         loadMembers();
         loadDashboard();
-        
+        showToast(currentMemberId ? 'Uye guncellendi!' : 'Yeni uye eklendi!');
+
     } catch (error) {
-        console.error('Üye kaydetme hatası:', error);
-        alert('Hata: ' + error.message);
+        console.error('Uye kaydetme hatasi:', error);
+        showToast('Hata: ' + error.message, 'error');
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Kaydet';
@@ -288,7 +295,7 @@ async function editMember(id) {
         
     } catch (error) {
         console.error('Üye yükleme hatası:', error);
-        alert('Hata: ' + error.message);
+        showToast('Hata: ' + error.message, 'error');
     }
 }
 
@@ -305,13 +312,14 @@ async function deleteMember(id, name) {
             .eq('id', id);
         
         if (error) throw error;
-        
+
         loadMembers();
         loadDashboard();
-        
+        showToast('Uye silindi.');
+
     } catch (error) {
-        console.error('Üye silme hatası:', error);
-        alert('Hata: ' + error.message);
+        console.error('Uye silme hatasi:', error);
+        showToast('Hata: ' + error.message, 'error');
     }
 }
 
@@ -457,10 +465,11 @@ document.getElementById('newsForm').addEventListener('submit', async (e) => {
         closeNewsModal();
         loadNews();
         loadDashboard();
-        
+        showToast(currentNewsId ? 'Haber guncellendi!' : 'Yeni haber eklendi!');
+
     } catch (error) {
-        console.error('Haber kaydetme hatası:', error);
-        alert('Hata: ' + error.message);
+        console.error('Haber kaydetme hatasi:', error);
+        showToast('Hata: ' + error.message, 'error');
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Kaydet';
@@ -495,7 +504,7 @@ async function editNews(id) {
         
     } catch (error) {
         console.error('Haber yükleme hatası:', error);
-        alert('Hata: ' + error.message);
+        showToast('Hata: ' + error.message, 'error');
     }
 }
 
@@ -512,13 +521,14 @@ async function deleteNews(id, title) {
             .eq('id', id);
         
         if (error) throw error;
-        
+
         loadNews();
         loadDashboard();
-        
+        showToast('Haber silindi.');
+
     } catch (error) {
-        console.error('Haber silme hatası:', error);
-        alert('Hata: ' + error.message);
+        console.error('Haber silme hatasi:', error);
+        showToast('Hata: ' + error.message, 'error');
     }
 }
 
