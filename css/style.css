@@ -151,23 +151,31 @@ body {
 /* --- HERO SECTION (index.html) --- */
 .hero {
     text-align: center;
-    padding: 80px 20px;
-    max-width: 900px;
+    padding: 100px 20px;
+    max-width: 100%;
     margin: 0 auto;
+    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/hero-bg.jpg') center/cover no-repeat;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero h1 {
     font-size: 3rem;
-    color: #222;
+    color: #fff;
     margin-bottom: 20px;
     font-weight: 800;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .hero p {
     font-size: 1.2rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 40px;
     line-height: 1.6;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .cta-buttons {
@@ -300,6 +308,11 @@ body {
 }
 
 @media (max-width: 768px) {
+    .hero {
+        padding: 60px 20px;
+        min-height: 350px;
+    }
+
     .hero h1 {
         font-size: 2rem;
     }
