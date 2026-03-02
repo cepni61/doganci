@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="icons/favicon.ico">
     <meta name="theme-color" content="#e05a00">
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Ana içeriğe atla</a>
@@ -124,6 +132,22 @@
                     `;
                 }).join('');
 
+                // GA4 haber görüntüleme takibi
+                if (typeof gtag === 'function') {
+                    var observer = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) {
+                                var t = entry.target.querySelector('h3');
+                                if (t) gtag('event', 'news_read', { news_title: t.textContent });
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.5 });
+                    document.querySelectorAll('.news-card').forEach(function(card) {
+                        observer.observe(card);
+                    });
+                }
+
             } catch (error) {
                 console.error('Haberler yükleme hatası:', error);
                 loading.textContent = 'Hata: ' + error.message;
@@ -132,5 +156,7 @@
 
         window.addEventListener('load', loadNews);
     </script>
+    <script src="js/pwa-install.js"></script>
+    <script src="js/push-manager.js"></script>
 </body>
 </html>

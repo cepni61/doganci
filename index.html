@@ -10,6 +10,14 @@
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
     <meta name="theme-color" content="#e05a00">
     <meta name="description" content="Doğancı köyünden gelen iş insanlarının buluşma noktası. Birlikte daha güçlüyüz!">
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Ana içeriğe atla</a>
@@ -153,12 +161,14 @@
             navigator.serviceWorker.register('./service-worker.js').catch(() => {});
             caches.keys().then(names => {
                 names.forEach(name => {
-                    if (name !== 'doganci-platform-v5') {
+                    if (name !== 'doganci-platform-v6') {
                         caches.delete(name);
                     }
                 });
             });
         }
     </script>
+    <script src="js/pwa-install.js"></script>
+    <script src="js/push-manager.js"></script>
 </body>
 </html>

@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="icons/favicon.ico">
     <meta name="theme-color" content="#e05a00">
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Ana içeriğe atla</a>
@@ -151,7 +159,7 @@
                         ${profession ? `<div class="member-profession">${profession}</div>` : ''}
                         ${company ? `<div class="member-detail">${company}</div>` : ''}
                         ${(city || ilce) ? `<div class="member-detail">${[ilce, city].filter(Boolean).join(' / ')}</div>` : ''}
-                        ${phone ? `<a href="tel:${phone}" class="phone-link" aria-label="${name} kişisini ara">Ara</a>` : ''}
+                        ${phone ? `<a href="tel:${phone}" class="phone-link" aria-label="${name} kişisini ara" onclick="typeof gtag==='function'&&gtag('event','member_call_click',{member_name:'${name}'})">Ara</a>` : ''}
                     </div>
                 </div>`;
             }).join('');
@@ -178,11 +186,24 @@
             }
 
             displayMembers(filtered);
+
+            // GA4 arama olayı (debounce)
+            if (searchTerm && typeof gtag === 'function') {
+                clearTimeout(window._gaSearchTimeout);
+                window._gaSearchTimeout = setTimeout(function() {
+                    gtag('event', 'member_search', {
+                        search_term: searchTerm,
+                        results_count: filtered.length
+                    });
+                }, 1000);
+            }
         }
 
         document.getElementById('searchInput').addEventListener('input', filterMembers);
         document.getElementById('professionFilter').addEventListener('change', filterMembers);
         window.addEventListener('load', loadMembers);
     </script>
+    <script src="js/pwa-install.js"></script>
+    <script src="js/push-manager.js"></script>
 </body>
 </html>

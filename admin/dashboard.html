@@ -232,6 +232,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="notifications">
+                        <span>&#128276;</span> Bildirimler
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="../index.html" class="nav-link">
                         <span>&#127760;</span> Siteyi Goruntule
                     </a>
@@ -315,6 +320,41 @@
                         </thead>
                         <tbody id="newsTableBody"></tbody>
                     </table>
+                </div>
+            </section>
+
+            <!-- Notifications -->
+            <section id="notifications" class="content-section">
+                <div class="section-header">
+                    <h2>Bildirim Gönder</h2>
+                </div>
+                <div style="max-width: 600px;">
+                    <div class="stat-card" style="margin-bottom: 20px;">
+                        <h3>Toplam Abone</h3>
+                        <div class="number" id="totalSubscribers">0</div>
+                    </div>
+                    <form id="notificationForm">
+                        <div class="form-group">
+                            <label for="notifTitle">Bildirim Başlığı *</label>
+                            <input type="text" id="notifTitle" required placeholder="Örnek: Yeni haber yayınlandı!">
+                        </div>
+                        <div class="form-group">
+                            <label for="notifBody">Bildirim Mesajı *</label>
+                            <textarea id="notifBody" rows="3" required placeholder="Bildirim içeriği..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="notifUrl">Yönlendirilecek Sayfa (Opsiyonel)</label>
+                            <select id="notifUrl">
+                                <option value="./index.html">Ana Sayfa</option>
+                                <option value="./members.html">Üyeler</option>
+                                <option value="./news.html">Haberler</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary" id="sendNotifBtn" style="width: 100%; padding: 14px; font-size: 16px;">
+                            &#128276; Bildirim Gönder
+                        </button>
+                    </form>
+                    <div id="notifResult" style="margin-top: 15px; display: none; padding: 12px; border-radius: 8px; font-size: 14px;"></div>
                 </div>
             </section>
         </main>

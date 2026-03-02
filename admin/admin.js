@@ -532,6 +532,81 @@ async function deleteNews(id, title) {
     }
 }
 
+// ============================================
+// NOTIFICATIONS (Push)
+// ============================================
+async function loadSubscriberCount() {
+    try {
+        const { count } = await supabase
+            .from('push_subscriptions')
+            .select('*', { count: 'exact', head: true });
+        var el = document.getElementById('totalSubscribers');
+        if (el) el.textContent = count || 0;
+    } catch (error) {
+        console.error('Abone sayısı yüklenemedi:', error);
+    }
+}
+
+var notifForm = document.getElementById('notificationForm');
+if (notifForm) {
+    notifForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        var btn = document.getElementById('sendNotifBtn');
+        var result = document.getElementById('notifResult');
+        btn.disabled = true;
+        btn.textContent = 'Gönderiliyor...';
+        result.style.display = 'none';
+
+        try {
+            var session = await supabase.auth.getSession();
+            var token = session.data.session.access_token;
+
+            var response = await fetch(
+                'https://nxywtyvcqkejvehpnoyw.supabase.co/functions/v1/send-push-notification',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        title: document.getElementById('notifTitle').value,
+                        body: document.getElementById('notifBody').value,
+                        url: document.getElementById('notifUrl').value || './index.html'
+                    })
+                }
+            );
+
+            var data = await response.json();
+
+            if (response.ok) {
+                result.style.display = 'block';
+                result.style.background = '#e8f5e9';
+                result.style.color = '#2e7d32';
+                result.textContent = 'Başarılı! ' + data.success + ' kişiye bildirim gönderildi.' +
+                    (data.cleaned > 0 ? ' ' + data.cleaned + ' geçersiz abonelik temizlendi.' : '');
+                showToast('Bildirimler gönderildi!');
+                notifForm.reset();
+                loadSubscriberCount();
+            } else {
+                throw new Error(data.error || 'Bilinmeyen hata');
+            }
+        } catch (error) {
+            result.style.display = 'block';
+            result.style.background = '#ffebee';
+            result.style.color = '#c62828';
+            result.textContent = 'Hata: ' + error.message;
+            showToast('Bildirim gönderilemedi!', 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '&#128276; Bildirim Gönder';
+        }
+    });
+}
+
+loadSubscriberCount();
+
 // Global fonksiyonlar window'a ekle
 window.editMember = editMember;
 window.deleteMember = deleteMember;

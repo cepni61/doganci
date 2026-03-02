@@ -1,4 +1,4 @@
-const CACHE_NAME = 'doganci-platform-v5';
+const CACHE_NAME = 'doganci-platform-v6';
 const urlsToCache = [
     './',
     './index.html',
@@ -6,6 +6,8 @@ const urlsToCache = [
     './news.html',
     './css/style.css',
     './js/supabase-config.js',
+    './js/pwa-install.js',
+    './js/push-manager.js',
     './manifest.json',
     './icons/icon-192.png',
     './icons/icon-512.png'
@@ -15,10 +17,7 @@ const urlsToCache = [
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => {
-                console.log('Cache açıldı');
-                return cache.addAll(urlsToCache);
-            })
+            .then(cache => cache.addAll(urlsToCache))
     );
     self.skipWaiting();
 });
@@ -30,7 +29,6 @@ self.addEventListener('activate', event => {
             return Promise.all(
                 cacheNames.map(cacheName => {
                     if (cacheName !== CACHE_NAME) {
-                        console.log('Eski cache siliniyor:', cacheName);
                         return caches.delete(cacheName);
                     }
                 })
@@ -45,7 +43,6 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         fetch(event.request)
             .then(response => {
-                // Geçerli bir response ise cache'e kaydet
                 if (response && response.status === 200 && response.type === 'basic') {
                     const responseToCache = response.clone();
                     caches.open(CACHE_NAME)
@@ -56,7 +53,6 @@ self.addEventListener('fetch', event => {
                 return response;
             })
             .catch(() => {
-                // Network hatası - offline ise cache'den döndür
                 return caches.match(event.request)
                     .then(response => {
                         if (response) return response;
@@ -65,5 +61,57 @@ self.addEventListener('fetch', event => {
                         }
                     });
             })
+    );
+});
+
+// Push Event - Bildirim al ve göster
+self.addEventListener('push', event => {
+    let data = { title: 'Doğancı Platform', body: 'Yeni bir bildirim var!' };
+
+    if (event.data) {
+        try {
+            data = event.data.json();
+        } catch (e) {
+            data.body = event.data.text();
+        }
+    }
+
+    const options = {
+        body: data.body,
+        icon: data.icon || './icons/icon-192.png',
+        badge: data.badge || './icons/icon-192.png',
+        vibrate: [200, 100, 200],
+        data: {
+            url: data.url || './index.html'
+        },
+        actions: [
+            { action: 'open', title: 'Aç' },
+            { action: 'close', title: 'Kapat' }
+        ]
+    };
+
+    event.waitUntil(
+        self.registration.showNotification(data.title, options)
+    );
+});
+
+// Bildirime tıklandığında
+self.addEventListener('notificationclick', event => {
+    event.notification.close();
+
+    if (event.action === 'close') return;
+
+    const url = event.notification.data?.url || './index.html';
+
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+            for (const client of clientList) {
+                if (client.url.includes('doganci') && 'focus' in client) {
+                    client.navigate(url);
+                    return client.focus();
+                }
+            }
+            return clients.openWindow(url);
+        })
     );
 });
