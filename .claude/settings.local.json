@@ -4,7 +4,14 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push)",
-      "Bash(git status:*)"
+      "Bash(git status:*)",
+      "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__list_tables",
+      "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__list_edge_functions",
+      "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__list_extensions",
+      "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__search_docs",
+      "Bash(npx web-push generate-vapid-keys)",
+      "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__apply_migration",
+      "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__deploy_edge_function"
     ]
   }
 }
