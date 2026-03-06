@@ -84,6 +84,8 @@
             </div>
 
             <div id="newsGrid" class="news-grid" style="display: none;"></div>
+
+            <div id="newsPagination" class="pagination" style="display: none;" aria-label="Sayfa navigasyonu"></div>
         </div>
     </main>
 
@@ -101,11 +103,13 @@
         }
 
         let allNews = [];
+        let newsCurrentPage = 1;
+        const newsPerPage = 15;
+        let filteredNews = [];
 
         async function loadNews() {
             const loading = document.getElementById('loading');
             const noNews = document.getElementById('noNews');
-            const grid = document.getElementById('newsGrid');
 
             try {
                 const { data: news, error } = await db
@@ -134,7 +138,8 @@
                     categoryFilter.appendChild(option);
                 });
 
-                displayNews(allNews);
+                filteredNews = allNews;
+                displayNews(filteredNews);
 
             } catch (error) {
                 console.error('Haberler yükleme hatası:', error);
@@ -142,54 +147,80 @@
             }
         }
 
+        function renderNewsCard(item) {
+            const title = escapeHtml(item.title);
+            const author = escapeHtml(item.author);
+            const category = escapeHtml(item.category);
+            const imageUrl = item.image_url ? escapeHtml(item.image_url) : '';
+            const content = escapeHtml(item.content);
+
+            const date = new Date(item.created_at || item.published_at);
+            const formattedDate = date.toLocaleDateString('tr-TR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+
+            const shortContent = content.length > 150
+                ? content.substring(0, 150) + '...'
+                : content;
+
+            return `
+                <article class="news-card">
+                    ${imageUrl
+                        ? `<img src="${imageUrl}" class="news-image" alt="${title}" loading="lazy">`
+                        : `<div class="news-image-placeholder" aria-hidden="true">&#128240;</div>`}
+                    <div class="news-content">
+                        ${category ? `<span class="news-category-badge">${category}</span>` : ''}
+                        <h3>${title}</h3>
+                        <div class="news-meta">
+                            <span>${formattedDate}</span>
+                            ${author ? `<span>${author}</span>` : ''}
+                        </div>
+                        ${shortContent ? `<p>${shortContent}</p>` : ''}
+                    </div>
+                </article>
+            `;
+        }
+
         function displayNews(news) {
             const grid = document.getElementById('newsGrid');
             const noNews = document.getElementById('noNews');
+            const pagination = document.getElementById('newsPagination');
             document.getElementById('newsResultCount').textContent = news.length;
 
             if (news.length === 0) {
                 grid.style.display = 'none';
                 noNews.style.display = 'block';
+                pagination.style.display = 'none';
                 return;
             }
 
             noNews.style.display = 'none';
+
+            const totalPages = Math.ceil(news.length / newsPerPage);
+            if (newsCurrentPage > totalPages) newsCurrentPage = 1;
+
+            const start = (newsCurrentPage - 1) * newsPerPage;
+            const end = start + newsPerPage;
+            const pageNews = news.slice(start, end);
+
             grid.style.display = 'grid';
-            grid.innerHTML = news.map(item => {
-                const title = escapeHtml(item.title);
-                const author = escapeHtml(item.author);
-                const category = escapeHtml(item.category);
-                const imageUrl = item.image_url ? escapeHtml(item.image_url) : '';
-                const content = escapeHtml(item.content);
+            grid.innerHTML = pageNews.map(renderNewsCard).join('');
 
-                const date = new Date(item.created_at || item.published_at);
-                const formattedDate = date.toLocaleDateString('tr-TR', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
-
-                const shortContent = content.length > 150
-                    ? content.substring(0, 150) + '...'
-                    : content;
-
-                return `
-                    <article class="news-card">
-                        ${imageUrl
-                            ? `<img src="${imageUrl}" class="news-image" alt="${title}" loading="lazy">`
-                            : `<div class="news-image-placeholder" aria-hidden="true">&#128240;</div>`}
-                        <div class="news-content">
-                            ${category ? `<span class="news-category-badge">${category}</span>` : ''}
-                            <h3>${title}</h3>
-                            <div class="news-meta">
-                                <span>${formattedDate}</span>
-                                ${author ? `<span>${author}</span>` : ''}
-                            </div>
-                            ${shortContent ? `<p>${shortContent}</p>` : ''}
-                        </div>
-                    </article>
-                `;
-            }).join('');
+            // Pagination
+            if (totalPages > 1) {
+                let paginationHtml = '';
+                paginationHtml += `<button class="page-btn ${newsCurrentPage === 1 ? 'disabled' : ''}" onclick="goToNewsPage(${newsCurrentPage - 1})" ${newsCurrentPage === 1 ? 'disabled' : ''} aria-label="Önceki sayfa">&laquo;</button>`;
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHtml += `<button class="page-btn ${i === newsCurrentPage ? 'active' : ''}" onclick="goToNewsPage(${i})" aria-label="Sayfa ${i}">${i}</button>`;
+                }
+                paginationHtml += `<button class="page-btn ${newsCurrentPage === totalPages ? 'disabled' : ''}" onclick="goToNewsPage(${newsCurrentPage + 1})" ${newsCurrentPage === totalPages ? 'disabled' : ''} aria-label="Sonraki sayfa">&raquo;</button>`;
+                pagination.innerHTML = paginationHtml;
+                pagination.style.display = 'flex';
+            } else {
+                pagination.style.display = 'none';
+            }
 
             // GA4 haber görüntüleme takibi
             if (typeof gtag === 'function') {
@@ -206,6 +237,14 @@
                     observer.observe(card);
                 });
             }
+        }
+
+        function goToNewsPage(page) {
+            const totalPages = Math.ceil(filteredNews.length / newsPerPage);
+            if (page < 1 || page > totalPages) return;
+            newsCurrentPage = page;
+            displayNews(filteredNews);
+            document.getElementById('newsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function filterNews() {
@@ -234,7 +273,9 @@
                 return sortFilter === 'oldest' ? dateA - dateB : dateB - dateA;
             });
 
-            displayNews(filtered);
+            newsCurrentPage = 1;
+            filteredNews = filtered;
+            displayNews(filteredNews);
         }
 
         document.getElementById('newsSearchInput').addEventListener('input', filterNews);
