@@ -257,27 +257,27 @@ body {
 /* Stats */
 .stats {
     background: white;
-    padding: 60px 20px;
-    margin: 60px 0;
+    padding: 40px 20px;
+    margin: 30px 0;
 }
 
 .stats-container {
-    max-width: 1000px;
+    max-width: 600px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     text-align: center;
 }
 
 .stat-item h2 {
-    font-size: 3rem;
+    font-size: 2.2rem;
     color: var(--primary-color);
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 
 .stat-item p {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: var(--text-secondary);
 }
 
@@ -305,6 +305,11 @@ body {
 
 .footer a:hover {
     text-decoration: underline;
+}
+
+.footer-contact {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 @media (max-width: 768px) {
