@@ -1,6 +1,6 @@
 {
-  "name": "Doğancı İş İnsanları Platformu",
-  "short_name": "Doğancı Platform",
+  "name": "Doğancı Köyü İş İnsanları Platformu",
+  "short_name": "Doğancı Köyü",
   "description": "Birlik, Dayanışma, Güç",
   "start_url": "./index.html",
   "display": "standalone",
