@@ -154,7 +154,7 @@ body {
     padding: 100px 20px;
     max-width: 100%;
     margin: 0 auto;
-    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/hero-bg.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/hero-bg.webp') center/cover no-repeat;
     min-height: 450px;
     display: flex;
     flex-direction: column;
@@ -524,20 +524,50 @@ body {
     color: #777;
 }
 
-.phone-link {
+.member-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+
+.phone-link,
+.whatsapp-link {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    color: var(--primary-color);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    margin-top: 4px;
-    transition: color 0.3s ease;
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.phone-link {
+    color: var(--primary-color);
+    background: rgba(224, 90, 0, 0.08);
 }
 
 .phone-link:hover {
+    background: rgba(224, 90, 0, 0.15);
     color: var(--primary-dark);
+}
+
+.whatsapp-link {
+    color: #25D366;
+    background: rgba(37, 211, 102, 0.08);
+}
+
+.whatsapp-link:hover {
+    background: rgba(37, 211, 102, 0.15);
+    color: #1DA851;
+}
+
+.whatsapp-link svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
 }
 
 .no-results {
@@ -561,6 +591,55 @@ body {
     .phone-link {
         justify-content: center;
     }
+}
+
+/* --- NEWS FILTER --- */
+.news-filter-container {
+    max-width: 900px;
+    margin: 0 auto 30px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.news-filter-container .filter-box {
+    flex: 1;
+    min-width: 160px;
+}
+
+.news-filter-container .result-counter {
+    white-space: nowrap;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.news-filter-container .result-counter span {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+@media (max-width: 600px) {
+    .news-filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .news-filter-container .result-counter {
+        text-align: center;
+    }
+}
+
+/* News category badge */
+.news-category-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(224, 90, 0, 0.1);
+    color: var(--primary-color);
+    margin-bottom: 8px;
 }
 
 /* --- NEWS GRID --- */

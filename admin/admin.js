@@ -125,14 +125,14 @@ async function loadMembers() {
         tbody.innerHTML = members.map(member => `
             <tr>
                 <td>
-                    ${member.photo_url 
-                        ? `<img src="${member.photo_url}" class="member-photo" alt="${member.name}">` 
+                    ${member.photo_url
+                        ? `<img src="${member.photo_url}" class="member-photo" alt="${member.name}">`
                         : '👤'}
                 </td>
                 <td>${member.name}</td>
                 <td>${member.profession || '-'}</td>
+                <td>${member.sector || '-'}</td>
                 <td>${member.phone || '-'}</td>
-                <td>${member.email || '-'}</td>
                 <td>
                     <div class="action-buttons">
                         <button class="btn-edit" onclick="editMember('${member.id}')">✏️ Düzenle</button>
@@ -211,6 +211,7 @@ document.getElementById('memberForm').addEventListener('submit', async (e) => {
         const memberData = {
             name: document.getElementById('memberName').value,
             profession: document.getElementById('memberProfession').value || null,
+            sector: document.getElementById('memberSector').value || null,
             company: document.getElementById('memberCompany').value || null,
             phone: document.getElementById('memberPhone').value || null,
             email: document.getElementById('memberEmail').value || null,
@@ -272,6 +273,7 @@ async function editMember(id) {
         document.getElementById('memberId').value = id;
         document.getElementById('memberName').value = member.name || '';
         document.getElementById('memberProfession').value = member.profession || '';
+        document.getElementById('memberSector').value = member.sector || '';
         document.getElementById('memberCompany').value = member.company || '';
         document.getElementById('memberPhone').value = member.phone || '';
         document.getElementById('memberEmail').value = member.email || '';
@@ -358,6 +360,7 @@ async function loadNews() {
         tbody.innerHTML = news.map(item => `
             <tr>
                 <td>${item.title}</td>
+                <td>${item.category || '-'}</td>
                 <td>${item.author || '-'}</td>
                 <td>${new Date(item.published_at).toLocaleDateString('tr-TR')}</td>
                 <td>
@@ -437,6 +440,7 @@ document.getElementById('newsForm').addEventListener('submit', async (e) => {
         
         const newsData = {
             title: document.getElementById('newsTitle').value,
+            category: document.getElementById('newsCategory').value || null,
             content: document.getElementById('newsContent').value,
             author: document.getElementById('newsAuthor').value,
         };
@@ -491,6 +495,7 @@ async function editNews(id) {
         document.getElementById('newsModalTitle').textContent = 'Haber Düzenle';
         document.getElementById('newsId').value = id;
         document.getElementById('newsTitle').value = news.title || '';
+        document.getElementById('newsCategory').value = news.category || '';
         document.getElementById('newsContent').value = news.content || '';
         document.getElementById('newsAuthor').value = news.author || '';
         

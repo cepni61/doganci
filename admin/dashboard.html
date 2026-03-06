@@ -287,8 +287,8 @@
                                 <th>Fotograf</th>
                                 <th>Ad Soyad</th>
                                 <th>Meslek</th>
+                                <th>Sektör</th>
                                 <th>Telefon</th>
-                                <th>Email</th>
                                 <th>Islemler</th>
                             </tr>
                         </thead>
@@ -313,6 +313,7 @@
                         <thead>
                             <tr>
                                 <th>Baslik</th>
+                                <th>Kategori</th>
                                 <th>Yazar</th>
                                 <th>Tarih</th>
                                 <th>Islemler</th>
@@ -386,6 +387,27 @@
                     <input type="text" id="memberProfession">
                 </div>
                 <div class="form-group">
+                    <label for="memberSector">Sektör</label>
+                    <select id="memberSector" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-size:14px;font-family:inherit;">
+                        <option value="">Seçiniz</option>
+                        <option value="İnşaat & Yapı">İnşaat & Yapı</option>
+                        <option value="Gıda & Tarım">Gıda & Tarım</option>
+                        <option value="Teknoloji">Teknoloji</option>
+                        <option value="Sağlık">Sağlık</option>
+                        <option value="Eğitim">Eğitim</option>
+                        <option value="Tekstil & Konfeksiyon">Tekstil & Konfeksiyon</option>
+                        <option value="Otomotiv">Otomotiv</option>
+                        <option value="Hizmet">Hizmet</option>
+                        <option value="Ticaret">Ticaret</option>
+                        <option value="Ulaşım & Lojistik">Ulaşım & Lojistik</option>
+                        <option value="Enerji">Enerji</option>
+                        <option value="Turizm & Otelcilik">Turizm & Otelcilik</option>
+                        <option value="Finans & Sigortacılık">Finans & Sigortacılık</option>
+                        <option value="Medya & İletişim">Medya & İletişim</option>
+                        <option value="Diğer">Diğer</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="memberCompany">Sirket</label>
                     <input type="text" id="memberCompany">
                 </div>
@@ -427,6 +449,17 @@
                 <div class="form-group">
                     <label for="newsTitle">Baslik *</label>
                     <input type="text" id="newsTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsCategory">Kategori</label>
+                    <select id="newsCategory" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-size:14px;font-family:inherit;">
+                        <option value="">Seçiniz</option>
+                        <option value="Duyuru">Duyuru</option>
+                        <option value="Etkinlik">Etkinlik</option>
+                        <option value="Basın">Basın</option>
+                        <option value="Röportaj">Röportaj</option>
+                        <option value="Genel">Genel</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="newsContent">Icerik</label>

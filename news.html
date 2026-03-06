@@ -54,10 +54,33 @@
                 <p>En son gelişmeler ve önemli duyurular</p>
             </div>
 
+            <div class="news-filter-container">
+                <div class="search-box">
+                    <label for="newsSearchInput" class="sr-only">Haber ara</label>
+                    <input type="text" id="newsSearchInput" class="search-input" placeholder="Haber ara...">
+                </div>
+                <div class="filter-box">
+                    <label for="categoryFilter" class="sr-only">Kategoriye göre filtrele</label>
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="">Tüm Kategoriler</option>
+                    </select>
+                </div>
+                <div class="filter-box">
+                    <label for="sortFilter" class="sr-only">Sıralama</label>
+                    <select id="sortFilter" class="filter-select">
+                        <option value="newest">En Yeni</option>
+                        <option value="oldest">En Eski</option>
+                    </select>
+                </div>
+                <div class="result-counter" aria-live="polite">
+                    <span id="newsResultCount">0</span> haber
+                </div>
+            </div>
+
             <div id="loading" class="loading" role="status">Yükleniyor...</div>
             <div id="noNews" class="no-news" style="display: none;" role="status">
                 <span aria-hidden="true">&#128240;</span>
-                <p>Henüz haber eklenmemiş.</p>
+                <p>Aradığınız kriterlere uygun haber bulunamadı.</p>
             </div>
 
             <div id="newsGrid" class="news-grid" style="display: none;"></div>
@@ -77,6 +100,8 @@
             return div.innerHTML;
         }
 
+        let allNews = [];
+
         async function loadNews() {
             const loading = document.getElementById('loading');
             const noNews = document.getElementById('noNews');
@@ -90,63 +115,26 @@
 
                 if (error) throw error;
 
+                allNews = news || [];
                 loading.style.display = 'none';
 
-                if (!news || news.length === 0) {
+                if (allNews.length === 0) {
                     noNews.style.display = 'block';
+                    document.getElementById('newsResultCount').textContent = '0';
                     return;
                 }
 
-                grid.style.display = 'grid';
-                grid.innerHTML = news.map(item => {
-                    const title = escapeHtml(item.title);
-                    const author = escapeHtml(item.author);
-                    const imageUrl = item.image_url ? escapeHtml(item.image_url) : '';
-                    const content = escapeHtml(item.content);
+                // Kategori filtresi doldur
+                const categories = [...new Set(allNews.map(n => n.category).filter(Boolean))].sort();
+                const categoryFilter = document.getElementById('categoryFilter');
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    categoryFilter.appendChild(option);
+                });
 
-                    const date = new Date(item.created_at || item.published_at);
-                    const formattedDate = date.toLocaleDateString('tr-TR', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric'
-                    });
-
-                    const shortContent = content.length > 150
-                        ? content.substring(0, 150) + '...'
-                        : content;
-
-                    return `
-                        <article class="news-card">
-                            ${imageUrl
-                                ? `<img src="${imageUrl}" class="news-image" alt="${title}" loading="lazy">`
-                                : `<div class="news-image-placeholder" aria-hidden="true">&#128240;</div>`}
-                            <div class="news-content">
-                                <h3>${title}</h3>
-                                <div class="news-meta">
-                                    <span>${formattedDate}</span>
-                                    ${author ? `<span>${author}</span>` : ''}
-                                </div>
-                                ${shortContent ? `<p>${shortContent}</p>` : ''}
-                            </div>
-                        </article>
-                    `;
-                }).join('');
-
-                // GA4 haber görüntüleme takibi
-                if (typeof gtag === 'function') {
-                    var observer = new IntersectionObserver(function(entries) {
-                        entries.forEach(function(entry) {
-                            if (entry.isIntersecting) {
-                                var t = entry.target.querySelector('h3');
-                                if (t) gtag('event', 'news_read', { news_title: t.textContent });
-                                observer.unobserve(entry.target);
-                            }
-                        });
-                    }, { threshold: 0.5 });
-                    document.querySelectorAll('.news-card').forEach(function(card) {
-                        observer.observe(card);
-                    });
-                }
+                displayNews(allNews);
 
             } catch (error) {
                 console.error('Haberler yükleme hatası:', error);
@@ -154,6 +142,104 @@
             }
         }
 
+        function displayNews(news) {
+            const grid = document.getElementById('newsGrid');
+            const noNews = document.getElementById('noNews');
+            document.getElementById('newsResultCount').textContent = news.length;
+
+            if (news.length === 0) {
+                grid.style.display = 'none';
+                noNews.style.display = 'block';
+                return;
+            }
+
+            noNews.style.display = 'none';
+            grid.style.display = 'grid';
+            grid.innerHTML = news.map(item => {
+                const title = escapeHtml(item.title);
+                const author = escapeHtml(item.author);
+                const category = escapeHtml(item.category);
+                const imageUrl = item.image_url ? escapeHtml(item.image_url) : '';
+                const content = escapeHtml(item.content);
+
+                const date = new Date(item.created_at || item.published_at);
+                const formattedDate = date.toLocaleDateString('tr-TR', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+
+                const shortContent = content.length > 150
+                    ? content.substring(0, 150) + '...'
+                    : content;
+
+                return `
+                    <article class="news-card">
+                        ${imageUrl
+                            ? `<img src="${imageUrl}" class="news-image" alt="${title}" loading="lazy">`
+                            : `<div class="news-image-placeholder" aria-hidden="true">&#128240;</div>`}
+                        <div class="news-content">
+                            ${category ? `<span class="news-category-badge">${category}</span>` : ''}
+                            <h3>${title}</h3>
+                            <div class="news-meta">
+                                <span>${formattedDate}</span>
+                                ${author ? `<span>${author}</span>` : ''}
+                            </div>
+                            ${shortContent ? `<p>${shortContent}</p>` : ''}
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            // GA4 haber görüntüleme takibi
+            if (typeof gtag === 'function') {
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            var t = entry.target.querySelector('h3');
+                            if (t) gtag('event', 'news_read', { news_title: t.textContent });
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                document.querySelectorAll('.news-card').forEach(function(card) {
+                    observer.observe(card);
+                });
+            }
+        }
+
+        function filterNews() {
+            const searchTerm = document.getElementById('newsSearchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const sortFilter = document.getElementById('sortFilter').value;
+            let filtered = allNews;
+
+            if (searchTerm) {
+                filtered = filtered.filter(n =>
+                    n.title.toLowerCase().includes(searchTerm) ||
+                    (n.content && n.content.toLowerCase().includes(searchTerm)) ||
+                    (n.author && n.author.toLowerCase().includes(searchTerm)) ||
+                    (n.category && n.category.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            if (categoryFilter) {
+                filtered = filtered.filter(n => n.category === categoryFilter);
+            }
+
+            // Sıralama
+            filtered = [...filtered].sort((a, b) => {
+                const dateA = new Date(a.created_at || a.published_at);
+                const dateB = new Date(b.created_at || b.published_at);
+                return sortFilter === 'oldest' ? dateA - dateB : dateB - dateA;
+            });
+
+            displayNews(filtered);
+        }
+
+        document.getElementById('newsSearchInput').addEventListener('input', filterNews);
+        document.getElementById('categoryFilter').addEventListener('change', filterNews);
+        document.getElementById('sortFilter').addEventListener('change', filterNews);
         window.addEventListener('load', loadNews);
     </script>
     <script src="js/pwa-install.js"></script>

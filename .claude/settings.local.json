@@ -11,7 +11,11 @@
       "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__search_docs",
       "Bash(npx web-push generate-vapid-keys)",
       "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__apply_migration",
-      "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__deploy_edge_function"
+      "mcp__6038756e-72c9-45c2-9cb5-776ab41d71f0__deploy_edge_function",
+      "Bash(gh api repos/cepni61/doganci/pages)",
+      "Bash(where gh)",
+      "Bash(npx --version)",
+      "Bash(npx --yes sharp-cli --input images/hero-bg.jpg --output images/hero-bg.webp --format webp --quality 80)"
     ]
   }
 }
