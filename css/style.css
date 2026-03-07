@@ -960,3 +960,16 @@ textarea:focus-visible {
 .pwa-ios-content .pwa-install-btn {
     width: 100%;
 }
+
+/* Safari uyarisi - iOS + Chrome/Firefox/Edge */
+.safari-warning .pwa-icon {
+    font-size: 28px;
+}
+
+.safari-warning .pwa-text small {
+    line-height: 1.5;
+}
+
+.safari-warning .pwa-text small strong {
+    color: var(--primary-color);
+}
