@@ -568,7 +568,7 @@ if (notifForm) {
             var token = session.data.session.access_token;
 
             var response = await fetch(
-                'https://nxywtyvcqkejvehpnoyw.supabase.co/functions/v1/send-push-notification',
+                'https://nxywtyvcqkejvehpnoyw.supabase.co/functions/v1/send-push',
                 {
                     method: 'POST',
                     headers: {
@@ -589,7 +589,7 @@ if (notifForm) {
                 result.style.display = 'block';
                 result.style.background = '#e8f5e9';
                 result.style.color = '#2e7d32';
-                result.textContent = 'Başarılı! ' + data.success + ' kişiye bildirim gönderildi.' +
+                result.textContent = 'Başarılı! ' + (data.sent || 0) + ' kişiye bildirim gönderildi.' +
                     (data.cleaned > 0 ? ' ' + data.cleaned + ' geçersiz abonelik temizlendi.' : '');
                 showToast('Bildirimler gönderildi!');
                 notifForm.reset();

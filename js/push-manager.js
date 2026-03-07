@@ -1,6 +1,6 @@
 // Push Notification Manager
 var PushNotifManager = (function() {
-    var VAPID_PUBLIC_KEY = 'BMwMKprM-iH7kphrDmIj_HGjApUhF7woAr7x3fD_mmtVfcpW_adanhDlluUEISgAcV7PQhtOYJuhE-DbrhVdpaQ';
+    var VAPID_PUBLIC_KEY = 'BHr5abc1EDSv1yj374cXdOxczpK0VnOaUsXF_wEnBSDCO5OOHA6wm1pVysUXa3RsoToNmL13VedIuJQkBBqIeVs';
 
     function urlBase64ToUint8Array(base64String) {
         var padding = '='.repeat((4 - base64String.length % 4) % 4);
