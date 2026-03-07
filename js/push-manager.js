@@ -73,31 +73,16 @@ var PushNotifManager = (function() {
 
     function initSmartPrompt() {
         if (!('Notification' in window)) return;
-        if (Notification.permission !== 'default') {
-            // Zaten izin verilmişse sessizce abone ol
-            if (Notification.permission === 'granted') {
-                subscribeToPush();
-            }
+        if (Notification.permission === 'granted') {
+            subscribeToPush();
             return;
         }
+        if (Notification.permission === 'denied') return;
 
-        var VISIT_KEY = 'push-visit-count';
-        var ASKED_KEY = 'push-permission-asked';
-
-        if (localStorage.getItem(ASKED_KEY)) return;
-
-        var visits = parseInt(localStorage.getItem(VISIT_KEY) || '0') + 1;
-        localStorage.setItem(VISIT_KEY, visits.toString());
-
-        // 3. ziyaretten sonra sor
-        if (visits >= 3) {
-            setTimeout(function() {
-                if (confirm('Yeni haberler ve duyurulardan haberdar olmak ister misiniz?')) {
-                    requestPermission();
-                }
-                localStorage.setItem(ASKED_KEY, 'true');
-            }, 5000);
-        }
+        // Ilk acilista 3 saniye sonra sor
+        setTimeout(function() {
+            requestPermission();
+        }, 3000);
     }
 
     return {
