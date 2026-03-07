@@ -30,7 +30,7 @@ var PushNotifManager = (function() {
             }
 
             var subJSON = subscription.toJSON();
-            var response = await fetch(SUPABASE_URL + '/rest/v1/push_subscriptions', {
+            var response = await fetch(SUPABASE_URL + '/rest/v1/push_subscriptions?on_conflict=endpoint', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,6 +46,9 @@ var PushNotifManager = (function() {
                 })
             });
 
+            if (!response.ok) {
+                console.error('Push kayit hatasi:', response.status, await response.text());
+            }
             return response.ok;
         } catch (error) {
             console.error('Push abonelik hatası:', error);
