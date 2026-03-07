@@ -122,11 +122,13 @@ async function loadMembers() {
         }
         
         table.style.display = 'table';
-        tbody.innerHTML = members.map(member => `
+        tbody.innerHTML = members.map(member => {
+            const safeName = (member.name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            return `
             <tr>
                 <td>
                     ${member.photo_url
-                        ? `<img src="${member.photo_url}" class="member-photo" alt="${member.name}">`
+                        ? `<img src="${member.photo_url}" class="member-photo" alt="${safeName}">`
                         : '👤'}
                 </td>
                 <td>${member.name}</td>
@@ -136,11 +138,11 @@ async function loadMembers() {
                 <td>
                     <div class="action-buttons">
                         <button class="btn-edit" onclick="editMember('${member.id}')">✏️ Düzenle</button>
-                        <button class="btn-delete" onclick="deleteMember('${member.id}', '${member.name}')">🗑️ Sil</button>
+                        <button class="btn-delete" onclick="deleteMember('${member.id}', '${safeName}')">🗑️ Sil</button>
                     </div>
                 </td>
             </tr>
-        `).join('');
+        `}).join('');
         
     } catch (error) {
         console.error('Üyeler yükleme hatası:', error);
@@ -306,17 +308,23 @@ async function deleteMember(id, name) {
     if (!confirm(`"${name}" adlı üyeyi silmek istediğinize emin misiniz?`)) {
         return;
     }
-    
+
     try {
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from('members')
             .delete()
-            .eq('id', id);
-        
+            .eq('id', id)
+            .select();
+
         if (error) throw error;
 
-        loadMembers();
-        loadDashboard();
+        if (!data || data.length === 0) {
+            showToast('Üye silinemedi - kayıt bulunamadı.', 'error');
+            return;
+        }
+
+        await loadMembers();
+        await loadDashboard();
         showToast('Uye silindi.');
 
     } catch (error) {
@@ -357,7 +365,9 @@ async function loadNews() {
         }
         
         table.style.display = 'table';
-        tbody.innerHTML = news.map(item => `
+        tbody.innerHTML = news.map(item => {
+            const safeTitle = (item.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            return `
             <tr>
                 <td>${item.title}</td>
                 <td>${item.category || '-'}</td>
@@ -366,11 +376,11 @@ async function loadNews() {
                 <td>
                     <div class="action-buttons">
                         <button class="btn-edit" onclick="editNews('${item.id}')">✏️ Düzenle</button>
-                        <button class="btn-delete" onclick="deleteNews('${item.id}', '${item.title}')">🗑️ Sil</button>
+                        <button class="btn-delete" onclick="deleteNews('${item.id}', '${safeTitle}')">🗑️ Sil</button>
                     </div>
                 </td>
             </tr>
-        `).join('');
+        `}).join('');
         
     } catch (error) {
         console.error('Haberler yükleme hatası:', error);
@@ -518,17 +528,23 @@ async function deleteNews(id, title) {
     if (!confirm(`"${title}" başlıklı haberi silmek istediğinize emin misiniz?`)) {
         return;
     }
-    
+
     try {
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from('news')
             .delete()
-            .eq('id', id);
-        
+            .eq('id', id)
+            .select();
+
         if (error) throw error;
 
-        loadNews();
-        loadDashboard();
+        if (!data || data.length === 0) {
+            showToast('Haber silinemedi - kayıt bulunamadı.', 'error');
+            return;
+        }
+
+        await loadNews();
+        await loadDashboard();
         showToast('Haber silindi.');
 
     } catch (error) {
