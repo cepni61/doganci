@@ -154,7 +154,7 @@ body {
     padding: 100px 20px;
     max-width: 100%;
     margin: 0 auto;
-    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('../images/hero-bg.webp') center/cover no-repeat;
+    background: url('../images/hero-bg.webp') center/cover no-repeat;
     min-height: 450px;
     display: flex;
     flex-direction: column;
@@ -167,15 +167,23 @@ body {
     color: #fff;
     margin-bottom: 20px;
     font-weight: 800;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.55);
+    padding: 14px 30px;
+    border-radius: 12px;
+    display: inline-block;
 }
 
 .hero p {
     font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     margin-bottom: 40px;
     line-height: 1.6;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.55);
+    padding: 10px 24px;
+    border-radius: 10px;
+    display: inline-block;
 }
 
 .cta-buttons {
@@ -183,6 +191,9 @@ body {
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 16px 28px;
+    border-radius: 12px;
 }
 
 .btn {
@@ -320,10 +331,16 @@ body {
 
     .hero h1 {
         font-size: 2rem;
+        padding: 12px 20px;
     }
 
     .hero p {
         font-size: 1rem;
+        padding: 8px 18px;
+    }
+
+    .cta-buttons {
+        padding: 12px 18px;
     }
 }
 
