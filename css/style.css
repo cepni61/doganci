@@ -877,8 +877,10 @@ textarea:focus-visible {
     background: var(--background-color);
     z-index: 9000;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .news-detail-container {

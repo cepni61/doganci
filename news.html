@@ -389,6 +389,12 @@
                 closeNewsDetail();
             }
         });
+
+        // Sayfa bfcache'den geri geldiginde scroll'u sifirla
+        window.addEventListener('pageshow', function(e) {
+            document.body.style.overflow = '';
+            document.getElementById('newsDetail').style.display = 'none';
+        });
     </script>
     <script src="js/pwa-install.js"></script>
     <script src="js/push-manager.js"></script>
