@@ -87,6 +87,19 @@
 
             <div id="newsPagination" class="pagination" style="display: none;" aria-label="Sayfa navigasyonu"></div>
         </div>
+
+        <!-- Haber Detay Modalı -->
+        <div id="newsDetail" class="news-detail-overlay" style="display:none;">
+            <div class="news-detail-container">
+                <div class="news-detail-header">
+                    <button class="news-detail-back" onclick="closeNewsDetail()" aria-label="Geri dön">&#8592; Geri</button>
+                </div>
+                <div class="news-detail-body" id="newsDetailBody"></div>
+                <div class="news-detail-footer">
+                    <button class="btn btn-primary news-share-btn" onclick="shareNews()" aria-label="Haberi paylaş">&#128279; Haberi Paylaş</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
@@ -166,7 +179,7 @@
                 : content;
 
             return `
-                <article class="news-card">
+                <article class="news-card" onclick="openNewsDetail('${item.id}')" style="cursor:pointer;" role="button" tabindex="0">
                     ${imageUrl
                         ? `<img src="${imageUrl}" class="news-image" alt="${title}" loading="lazy">`
                         : `<div class="news-image-placeholder" aria-hidden="true">&#128240;</div>`}
@@ -282,6 +295,100 @@
         document.getElementById('categoryFilter').addEventListener('change', filterNews);
         document.getElementById('sortFilter').addEventListener('change', filterNews);
         window.addEventListener('load', loadNews);
+
+        // Haber Detay
+        let currentNewsItem = null;
+
+        function openNewsDetail(id) {
+            const item = allNews.find(n => n.id === id);
+            if (!item) return;
+            currentNewsItem = item;
+
+            const title = escapeHtml(item.title);
+            const author = escapeHtml(item.author);
+            const category = escapeHtml(item.category);
+            const imageUrl = item.image_url ? escapeHtml(item.image_url) : '';
+            const content = escapeHtml(item.content || '');
+
+            const date = new Date(item.created_at || item.published_at);
+            const formattedDate = date.toLocaleDateString('tr-TR', {
+                day: 'numeric', month: 'long', year: 'numeric'
+            });
+
+            // Satır sonlarını <br> olarak göster
+            const formattedContent = content.replace(/\n/g, '<br>');
+
+            document.getElementById('newsDetailBody').innerHTML = `
+                ${imageUrl ? `<img src="${imageUrl}" class="news-detail-image" alt="${title}">` : ''}
+                ${category ? `<span class="news-category-badge">${category}</span>` : ''}
+                <h1 class="news-detail-title">${title}</h1>
+                <div class="news-meta">
+                    <span>${formattedDate}</span>
+                    ${author ? `<span>${author}</span>` : ''}
+                </div>
+                <div class="news-detail-text">${formattedContent}</div>
+            `;
+
+            document.getElementById('newsDetail').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            window.scrollTo(0, 0);
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'news_detail_view', { news_title: item.title });
+            }
+        }
+
+        function closeNewsDetail() {
+            document.getElementById('newsDetail').style.display = 'none';
+            document.body.style.overflow = '';
+            currentNewsItem = null;
+        }
+
+        async function shareNews() {
+            if (!currentNewsItem) return;
+            const shareData = {
+                title: currentNewsItem.title,
+                text: currentNewsItem.title + ' - Doğancı Köyü Platformu',
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'news_share', { news_title: currentNewsItem.title, method: 'native' });
+                    }
+                } catch (err) {
+                    if (err.name !== 'AbortError') copyToClipboard(shareData);
+                }
+            } else {
+                copyToClipboard(shareData);
+            }
+        }
+
+        function copyToClipboard(shareData) {
+            const text = shareData.title + '\n' + shareData.url;
+            navigator.clipboard.writeText(text).then(function() {
+                var btn = document.querySelector('.news-share-btn');
+                var orig = btn.innerHTML;
+                btn.innerHTML = '&#10003; Kopyalandı!';
+                setTimeout(function() { btn.innerHTML = orig; }, 2000);
+            }).catch(function() {
+                alert(shareData.title + '\n' + shareData.url);
+            });
+        }
+
+        // ESC ile kapat
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeNewsDetail();
+        });
+
+        // Geri tuşu ile kapat (mobil)
+        window.addEventListener('popstate', function() {
+            if (document.getElementById('newsDetail').style.display === 'flex') {
+                closeNewsDetail();
+            }
+        });
     </script>
     <script src="js/pwa-install.js"></script>
     <script src="js/push-manager.js"></script>
