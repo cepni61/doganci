@@ -876,18 +876,18 @@ textarea:focus-visible {
     bottom: 0;
     background: var(--background-color);
     z-index: 9000;
-    overflow-y: auto;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    overscroll-behavior: contain;
 }
 
 .news-detail-container {
     max-width: 700px;
     width: 100%;
+    margin: 0 auto;
     background: var(--card-background);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    min-height: 100%;
 }
 
 .news-detail-header {
