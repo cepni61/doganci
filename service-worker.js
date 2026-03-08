@@ -1,4 +1,4 @@
-const CACHE_NAME = 'doganci-platform-v6';
+const CACHE_NAME = 'doganci-platform-v7';
 const urlsToCache = [
     './',
     './index.html',

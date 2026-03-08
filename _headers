@@ -1,0 +1,25 @@
+# HTML sayfalari - her zaman sunucudan kontrol et
+/*.html
+  Cache-Control: no-cache, must-revalidate
+  X-Content-Type-Options: nosniff
+
+/
+  Cache-Control: no-cache, must-revalidate
+
+# CSS ve JS - 1 saat cache, ama her zaman kontrol et
+/css/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/js/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Resimler ve ikonlar - 1 gun cache
+/icons/*
+  Cache-Control: public, max-age=86400
+
+/images/*
+  Cache-Control: public, max-age=86400
+
+# Service worker - asla cache'lenmesin
+/service-worker.js
+  Cache-Control: no-cache, no-store, must-revalidate
