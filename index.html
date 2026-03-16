@@ -58,6 +58,7 @@
             <div class="cta-buttons">
                 <a href="members.html" class="btn btn-primary">Üyeler</a>
                 <a href="news.html" class="btn btn-secondary">Haberler</a>
+                <a href="uye-ol.html" class="btn btn-secondary">Üye Ol</a>
             </div>
         </section>
 
@@ -161,7 +162,7 @@
             navigator.serviceWorker.register('./service-worker.js').catch(() => {});
             caches.keys().then(names => {
                 names.forEach(name => {
-                    if (name !== 'doganci-platform-v7') {
+                    if (name !== 'doganci-platform-v8') {
                         caches.delete(name);
                     }
                 });

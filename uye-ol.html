@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üye Ol - Doğancı Köyü Platformu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="icons/favicon.ico">
+    <meta name="theme-color" content="#e05a00">
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S9Y0X0LK42"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-S9Y0X0LK42');
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Ana içeriğe atla</a>
+
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <circle cx="50" cy="50" r="48" fill="#4E9FD1" stroke="#00CED1" stroke-width="3"/>
+                    <path d="M30 60 L50 30 L70 60 Z" fill="#8B4513"/>
+                    <path d="M45 40 L50 30 L55 40 Z" fill="#fff"/>
+                    <polygon points="35,65 38,55 41,65" fill="#228B22"/>
+                    <polygon points="42,65 45,55 48,65" fill="#228B22"/>
+                    <polygon points="52,65 55,55 58,65" fill="#228B22"/>
+                    <polygon points="59,65 62,55 65,65" fill="#228B22"/>
+                    <ellipse cx="50" cy="75" rx="35" ry="8" fill="#90EE90"/>
+                    <circle cx="50" cy="50" r="46" stroke="#fff" stroke-width="1.5" fill="none"/>
+                </svg>
+                <span>Doğancı Köyü Platformu</span>
+            </a>
+            <button class="hamburger" aria-label="Menüyü aç/kapa" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='false');document.getElementById('navLinks').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="members.html">Üyeler</a></li>
+                <li><a href="news.html">Haberler</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <div class="page-container">
+            <h1 class="page-title">Üyelik Başvurusu</h1>
+            <p class="page-subtitle">Doğancı Köyü İş İnsanları Platformu'na katılmak için bilgilerinizi doldurun.</p>
+
+            <!-- Cooldown mesaji -->
+            <div id="cooldownMessage" class="success-message" style="display:none;">
+                <div class="success-icon">&#9201;</div>
+                <h2>Başvurunuz Zaten Gönderildi</h2>
+                <p>Kısa süre önce bir başvuru gönderdiniz. Lütfen biraz bekleyip tekrar deneyin.</p>
+                <a href="index.html" class="btn btn-primary">Ana Sayfaya Dön</a>
+            </div>
+
+            <!-- Basarili mesaji -->
+            <div id="successMessage" class="success-message" style="display:none;">
+                <div class="success-icon">&#10003;</div>
+                <h2>Başvurunuz Alındı!</h2>
+                <p>Üyelik başvurunuz başarıyla gönderildi. Yönetim kurulumuz başvurunuzu inceledikten sonra üye listemize ekleneceksiniz.</p>
+                <a href="index.html" class="btn btn-primary">Ana Sayfaya Dön</a>
+            </div>
+
+            <!-- Basvuru formu -->
+            <div id="requestFormContainer" class="membership-form-container">
+                <form id="requestForm">
+                    <div class="form-group">
+                        <label>Fotoğraf</label>
+                        <div class="photo-upload" onclick="document.getElementById('reqPhoto').click()">
+                            <input type="file" id="reqPhoto" accept="image/jpeg,image/png,image/webp,image/gif" onchange="previewRequestPhoto(event)">
+                            <div id="photoUploadText">
+                                <span style="font-size:32px;">📷</span><br>
+                                Fotoğraf Yükle<br><small>Tıkla veya sürükle-bırak (max 2MB)</small>
+                            </div>
+                            <img id="photoPreview" class="photo-preview" style="display:none;" alt="Önizleme">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reqName">İsim Soyisim *</label>
+                        <input type="text" id="reqName" required placeholder="Adınız ve soyadınız">
+                    </div>
+                    <div class="form-group">
+                        <label for="reqProfession">Meslek</label>
+                        <input type="text" id="reqProfession" placeholder="Ör: İnşaat Mühendisi, Esnaf...">
+                    </div>
+                    <div class="form-group">
+                        <label for="reqSector">Sektör</label>
+                        <select id="reqSector">
+                            <option value="">Seçiniz</option>
+                            <option value="İnşaat & Yapı">İnşaat & Yapı</option>
+                            <option value="Gıda & Tarım">Gıda & Tarım</option>
+                            <option value="Teknoloji">Teknoloji</option>
+                            <option value="Sağlık">Sağlık</option>
+                            <option value="Eğitim">Eğitim</option>
+                            <option value="Tekstil & Konfeksiyon">Tekstil & Konfeksiyon</option>
+                            <option value="Otomotiv">Otomotiv</option>
+                            <option value="Hizmet">Hizmet</option>
+                            <option value="Ticaret">Ticaret</option>
+                            <option value="Ulaşım & Lojistik">Ulaşım & Lojistik</option>
+                            <option value="Enerji">Enerji</option>
+                            <option value="Turizm & Otelcilik">Turizm & Otelcilik</option>
+                            <option value="Finans & Sigortacılık">Finans & Sigortacılık</option>
+                            <option value="Medya & İletişim">Medya & İletişim</option>
+                            <option value="Dernek">Dernek</option>
+                            <option value="Diğer">Diğer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reqCompany">Şirket</label>
+                        <input type="text" id="reqCompany" placeholder="Çalıştığınız veya sahip olduğunuz şirket">
+                    </div>
+                    <div class="form-group">
+                        <label for="reqPhone">Telefon</label>
+                        <input type="tel" id="reqPhone" placeholder="+90 5XX XXX XX XX">
+                    </div>
+                    <div class="form-group">
+                        <label for="reqEmail">Email</label>
+                        <input type="email" id="reqEmail" placeholder="ornek@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="reqCity">İl</label>
+                        <input type="text" id="reqCity" placeholder="Trabzon">
+                    </div>
+                    <div class="form-group">
+                        <label for="reqIlce">İlçe</label>
+                        <input type="text" id="reqIlce" placeholder="Şalpazarı">
+                    </div>
+                    <div class="form-group">
+                        <label for="reqKeywords">Anahtar Kelimeler</label>
+                        <textarea id="reqKeywords" rows="3" placeholder="Aramalarda bulunmanız için virgülle ayırarak yazın. Ör: musluk tamir, su tesisatı, elektrik..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit">Başvuru Gönder</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Doğancı Köyü İş İnsanları Platformu</p>
+            <p class="footer-contact">İletişim: <a href="mailto:dogancitalep@gmail.com">dogancitalep@gmail.com</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script>
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let requestPhotoFile = null;
+
+        // Cooldown kontrolu (5 dk)
+        (function checkCooldown() {
+            const lastRequest = localStorage.getItem('lastRequestTime');
+            if (lastRequest && (Date.now() - parseInt(lastRequest)) < 300000) {
+                document.getElementById('requestFormContainer').style.display = 'none';
+                document.getElementById('cooldownMessage').style.display = 'block';
+            }
+        })();
+
+        // Fotograf onizleme
+        function previewRequestPhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Fotoğraf boyutu 2MB\'dan küçük olmalıdır.');
+                event.target.value = '';
+                return;
+            }
+
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Sadece JPEG, PNG, WebP veya GIF formatında fotoğraflar yüklenebilir.');
+                event.target.value = '';
+                return;
+            }
+
+            requestPhotoFile = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('photoPreview').src = e.target.result;
+                document.getElementById('photoPreview').style.display = 'block';
+                document.getElementById('photoUploadText').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Drag & drop
+        const photoUpload = document.querySelector('.photo-upload');
+        if (photoUpload) {
+            photoUpload.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#e05a00';
+            });
+            photoUpload.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '';
+            });
+            photoUpload.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '';
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    document.getElementById('reqPhoto').files = e.dataTransfer.files;
+                    previewRequestPhoto({ target: { files: [file], value: file.name } });
+                }
+            });
+        }
+
+        // Form gonder
+        document.getElementById('requestForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Gönderiliyor...';
+
+            try {
+                let photoUrl = null;
+
+                // Fotograf yukle
+                if (requestPhotoFile) {
+                    const fileExt = requestPhotoFile.name.split('.').pop().toLowerCase();
+                    const fileName = Date.now() + '_' + Math.random().toString(36).substring(2, 8) + '.' + fileExt;
+
+                    const { data: uploadData, error: uploadError } = await supabase.storage
+                        .from('request-photos')
+                        .upload(fileName, requestPhotoFile);
+
+                    if (uploadError) throw uploadError;
+
+                    const { data: urlData } = supabase.storage
+                        .from('request-photos')
+                        .getPublicUrl(fileName);
+
+                    photoUrl = urlData.publicUrl;
+                }
+
+                // member_requests tablosuna kaydet
+                const requestData = {
+                    name: document.getElementById('reqName').value.trim(),
+                    profession: document.getElementById('reqProfession').value.trim() || null,
+                    sector: document.getElementById('reqSector').value || null,
+                    company: document.getElementById('reqCompany').value.trim() || null,
+                    phone: document.getElementById('reqPhone').value.trim() || null,
+                    email: document.getElementById('reqEmail').value.trim() || null,
+                    city: document.getElementById('reqCity').value.trim() || null,
+                    ilce: document.getElementById('reqIlce').value.trim() || null,
+                    keywords: document.getElementById('reqKeywords').value.trim() || null
+                };
+
+                if (photoUrl) {
+                    requestData.photo_url = photoUrl;
+                }
+
+                const { error } = await supabase
+                    .from('member_requests')
+                    .insert([requestData]);
+
+                if (error) throw error;
+
+                // Cooldown kaydet
+                localStorage.setItem('lastRequestTime', Date.now().toString());
+
+                // Basari mesaji goster
+                document.getElementById('requestFormContainer').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+
+                // GA4 event
+                if (typeof gtag === 'function') {
+                    gtag('event', 'membership_request', { name: requestData.name });
+                }
+
+            } catch (error) {
+                console.error('Basvuru hatasi:', error);
+                alert('Başvuru gönderilirken bir hata oluştu. Lütfen tekrar deneyin.\n\n' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Başvuru Gönder';
+            }
+        });
+    </script>
+    <script src="js/pwa-install.js"></script>
+    <script src="js/push-manager.js"></script>
+</body>
+</html>

@@ -18,6 +18,7 @@ window.addEventListener('load', async () => {
     loadDashboard();
     loadMembers();
     loadNews();
+    loadRequests();
 });
 
 // Çıkış yap
@@ -84,7 +85,23 @@ async function loadDashboard() {
         if (latestMember) {
             document.getElementById('latestMember').textContent = latestMember.name;
         }
-        
+
+        // Bekleyen talep sayisi
+        const { count: pendingCount } = await supabase
+            .from('member_requests')
+            .select('*', { count: 'exact', head: true })
+            .eq('status', 'pending');
+
+        const pendingEl = document.getElementById('pendingRequests');
+        if (pendingEl) pendingEl.textContent = pendingCount || 0;
+
+        // Badge guncelle
+        const badge = document.getElementById('pendingBadge');
+        if (badge) {
+            badge.textContent = pendingCount || 0;
+            badge.style.display = (pendingCount > 0) ? 'inline-flex' : 'none';
+        }
+
     } catch (error) {
         console.error('Dashboard yükleme hatası:', error);
     }
@@ -628,6 +645,350 @@ if (notifForm) {
 
 loadSubscriberCount();
 
+// ============================================
+// MEMBERSHIP REQUESTS (Talepler)
+// ============================================
+let allRequests = [];
+let currentRequestFilter = 'pending';
+let editReqPhotoFile = null;
+
+function escapeHtml(text) {
+    if (!text) return '';
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+async function loadRequests() {
+    var loading = document.getElementById('requestsLoading');
+    var empty = document.getElementById('requestsEmpty');
+    var list = document.getElementById('requestsList');
+
+    if (!loading || !empty || !list) return;
+
+    try {
+        loading.style.display = 'block';
+        empty.style.display = 'none';
+        list.innerHTML = '';
+
+        var { data: requests, error } = await supabase
+            .from('member_requests')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        allRequests = requests || [];
+        loading.style.display = 'none';
+
+        displayRequests();
+        updatePendingBadge();
+
+    } catch (error) {
+        console.error('Talepler yukleme hatasi:', error);
+        if (loading) loading.textContent = 'Hata: ' + error.message;
+    }
+}
+
+function displayRequests() {
+    var empty = document.getElementById('requestsEmpty');
+    var list = document.getElementById('requestsList');
+
+    var filtered = allRequests;
+    if (currentRequestFilter !== 'all') {
+        filtered = allRequests.filter(function(r) { return r.status === currentRequestFilter; });
+    }
+
+    if (filtered.length === 0) {
+        empty.style.display = 'block';
+        list.innerHTML = '';
+        return;
+    }
+
+    empty.style.display = 'none';
+    list.innerHTML = filtered.map(function(req) {
+        var statusClass = req.status;
+        var statusText = req.status === 'pending' ? 'Bekliyor'
+            : req.status === 'approved' ? 'Onaylandi' : 'Reddedildi';
+
+        var date = new Date(req.created_at);
+        var dateStr = date.toLocaleDateString('tr-TR') + ' ' +
+            date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+        return '<div class="request-card ' + statusClass + '">' +
+            (req.photo_url ? '<img src="' + escapeHtml(req.photo_url) + '" class="request-photo" alt="' + escapeHtml(req.name) + '">' : '') +
+            '<h4>' + escapeHtml(req.name) + '</h4> ' +
+            '<span class="request-status-badge ' + statusClass + '">' + statusText + '</span>' +
+            '<div class="request-details">' +
+                (req.profession ? '<strong>Meslek:</strong> ' + escapeHtml(req.profession) + '<br>' : '') +
+                (req.sector ? '<strong>Sektor:</strong> ' + escapeHtml(req.sector) + '<br>' : '') +
+                (req.company ? '<strong>Sirket:</strong> ' + escapeHtml(req.company) + '<br>' : '') +
+                (req.phone ? '<strong>Telefon:</strong> ' + escapeHtml(req.phone) + '<br>' : '') +
+                (req.email ? '<strong>Email:</strong> ' + escapeHtml(req.email) + '<br>' : '') +
+                ((req.city || req.ilce) ? '<strong>Konum:</strong> ' + escapeHtml([req.ilce, req.city].filter(Boolean).join(' / ')) + '<br>' : '') +
+                (req.keywords ? '<strong>Anahtar Kelimeler:</strong> ' + escapeHtml(req.keywords) + '<br>' : '') +
+                (req.admin_note ? '<strong>Admin Notu:</strong> ' + escapeHtml(req.admin_note) + '<br>' : '') +
+                '<small style="color:#999;">Basvuru: ' + dateStr + '</small>' +
+            '</div>' +
+            (req.status === 'pending' ?
+                '<div class="request-actions">' +
+                    '<button class="btn-edit-req" onclick="editRequest(\'' + req.id + '\')">&#9998; Duzenle</button>' +
+                    '<button class="btn-approve" onclick="approveRequest(\'' + req.id + '\')">&#10003; Onayla</button>' +
+                    '<button class="btn-reject" onclick="rejectRequest(\'' + req.id + '\')">&#10007; Reddet</button>' +
+                '</div>' : '') +
+        '</div>';
+    }).join('');
+}
+
+function filterRequests(status) {
+    currentRequestFilter = status;
+    document.querySelectorAll('.filter-tab').forEach(function(tab) {
+        tab.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    displayRequests();
+}
+
+function updatePendingBadge() {
+    var pendingCount = allRequests.filter(function(r) { return r.status === 'pending'; }).length;
+    var badge = document.getElementById('pendingBadge');
+    if (badge) {
+        badge.textContent = pendingCount;
+        badge.style.display = pendingCount > 0 ? 'inline-flex' : 'none';
+    }
+    var pendingEl = document.getElementById('pendingRequests');
+    if (pendingEl) pendingEl.textContent = pendingCount;
+}
+
+// Talep duzenle
+function editRequest(id) {
+    var req = allRequests.find(function(r) { return r.id === id; });
+    if (!req) return;
+
+    editReqPhotoFile = null;
+    document.getElementById('editReqId').value = id;
+    document.getElementById('editReqName').value = req.name || '';
+    document.getElementById('editReqProfession').value = req.profession || '';
+    document.getElementById('editReqSector').value = req.sector || '';
+    document.getElementById('editReqCompany').value = req.company || '';
+    document.getElementById('editReqPhone').value = req.phone || '';
+    document.getElementById('editReqEmail').value = req.email || '';
+    document.getElementById('editReqCity').value = req.city || '';
+    document.getElementById('editReqIlce').value = req.ilce || '';
+    document.getElementById('editReqKeywords').value = req.keywords || '';
+
+    document.getElementById('editReqPhoto').value = '';
+    if (req.photo_url) {
+        document.getElementById('editReqPhotoPreview').src = req.photo_url;
+        document.getElementById('editReqPhotoPreview').style.display = 'block';
+        document.getElementById('editReqPhotoUploadText').style.display = 'none';
+    } else {
+        document.getElementById('editReqPhotoPreview').style.display = 'none';
+        document.getElementById('editReqPhotoUploadText').style.display = 'block';
+    }
+
+    document.getElementById('requestEditModal').classList.add('show');
+}
+
+function closeRequestEditModal() {
+    document.getElementById('requestEditModal').classList.remove('show');
+}
+
+function previewEditReqPhoto(event) {
+    var file = event.target.files[0];
+    if (file) {
+        editReqPhotoFile = file;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('editReqPhotoPreview').src = e.target.result;
+            document.getElementById('editReqPhotoPreview').style.display = 'block';
+            document.getElementById('editReqPhotoUploadText').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Talep duzenleme kaydet
+var reqEditForm = document.getElementById('requestEditForm');
+if (reqEditForm) {
+    reqEditForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        var submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Kaydediliyor...';
+
+        try {
+            var id = document.getElementById('editReqId').value;
+            var updateData = {
+                name: document.getElementById('editReqName').value.trim(),
+                profession: document.getElementById('editReqProfession').value.trim() || null,
+                sector: document.getElementById('editReqSector').value || null,
+                company: document.getElementById('editReqCompany').value.trim() || null,
+                phone: document.getElementById('editReqPhone').value.trim() || null,
+                email: document.getElementById('editReqEmail').value.trim() || null,
+                city: document.getElementById('editReqCity').value.trim() || null,
+                ilce: document.getElementById('editReqIlce').value.trim() || null,
+                keywords: document.getElementById('editReqKeywords').value.trim() || null,
+                updated_at: new Date().toISOString()
+            };
+
+            // Yeni fotograf yuklendi mi?
+            if (editReqPhotoFile) {
+                var fileExt = editReqPhotoFile.name.split('.').pop();
+                var fileName = Date.now() + '.' + fileExt;
+                var { error: uploadError } = await supabase.storage
+                    .from('request-photos')
+                    .upload(fileName, editReqPhotoFile);
+                if (uploadError) throw uploadError;
+
+                var { data: urlData } = supabase.storage
+                    .from('request-photos')
+                    .getPublicUrl(fileName);
+                updateData.photo_url = urlData.publicUrl;
+            }
+
+            var { error } = await supabase
+                .from('member_requests')
+                .update(updateData)
+                .eq('id', id);
+
+            if (error) throw error;
+
+            closeRequestEditModal();
+            await loadRequests();
+            showToast('Talep guncellendi!');
+
+        } catch (error) {
+            console.error('Talep guncelleme hatasi:', error);
+            showToast('Hata: ' + error.message, 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Degisiklikleri Kaydet';
+        }
+    });
+}
+
+// Talep onayla
+async function approveRequest(id) {
+    if (!confirm('Bu basvuruyu onaylamak istediginize emin misiniz? Uye listesine eklenecektir.')) {
+        return;
+    }
+
+    try {
+        // 1. Talep verisini al
+        var { data: request, error: fetchError } = await supabase
+            .from('member_requests')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (fetchError) throw fetchError;
+
+        // 2. Fotografi member-photos'a kopyala
+        var memberPhotoUrl = request.photo_url;
+
+        if (request.photo_url && request.photo_url.includes('request-photos')) {
+            try {
+                var fileName = request.photo_url.split('/request-photos/')[1];
+                if (fileName) {
+                    var { data: fileData, error: downloadError } = await supabase.storage
+                        .from('request-photos')
+                        .download(fileName);
+
+                    if (!downloadError && fileData) {
+                        var newFileName = 'approved_' + Date.now() + '_' + fileName;
+                        var { error: uploadError } = await supabase.storage
+                            .from('member-photos')
+                            .upload(newFileName, fileData);
+
+                        if (!uploadError) {
+                            var { data: urlData } = supabase.storage
+                                .from('member-photos')
+                                .getPublicUrl(newFileName);
+                            memberPhotoUrl = urlData.publicUrl;
+                        }
+                    }
+                }
+            } catch (photoError) {
+                console.warn('Fotograf kopyalama hatasi, orijinal URL kullanilacak:', photoError);
+            }
+        }
+
+        // 3. Members tablosuna ekle
+        var memberData = {
+            name: request.name,
+            profession: request.profession,
+            sector: request.sector,
+            company: request.company,
+            phone: request.phone,
+            email: request.email,
+            city: request.city,
+            ilce: request.ilce,
+            keywords: request.keywords,
+            photo_url: memberPhotoUrl
+        };
+
+        var { error: insertError } = await supabase
+            .from('members')
+            .insert([memberData]);
+
+        if (insertError) throw insertError;
+
+        // 4. Talep durumunu guncelle
+        var { error: updateError } = await supabase
+            .from('member_requests')
+            .update({
+                status: 'approved',
+                reviewed_at: new Date().toISOString()
+            })
+            .eq('id', id);
+
+        if (updateError) throw updateError;
+
+        showToast('Basvuru onaylandi! Uye listesine eklendi.');
+        await loadRequests();
+        await loadMembers();
+        await loadDashboard();
+
+    } catch (error) {
+        console.error('Onaylama hatasi:', error);
+        showToast('Hata: ' + error.message, 'error');
+    }
+}
+
+// Talep reddet
+async function rejectRequest(id) {
+    var reason = prompt('Red nedeni (opsiyonel):');
+    if (reason === null) return;
+
+    try {
+        var updateData = {
+            status: 'rejected',
+            reviewed_at: new Date().toISOString()
+        };
+
+        if (reason && reason.trim()) {
+            updateData.admin_note = reason.trim();
+        }
+
+        var { error } = await supabase
+            .from('member_requests')
+            .update(updateData)
+            .eq('id', id);
+
+        if (error) throw error;
+
+        showToast('Basvuru reddedildi.');
+        await loadRequests();
+        await loadDashboard();
+
+    } catch (error) {
+        console.error('Reddetme hatasi:', error);
+        showToast('Hata: ' + error.message, 'error');
+    }
+}
+
 // Global fonksiyonlar window'a ekle
 window.editMember = editMember;
 window.deleteMember = deleteMember;
@@ -637,3 +998,9 @@ window.closeMemberModal = closeMemberModal;
 window.closeNewsModal = closeNewsModal;
 window.previewMemberPhoto = previewMemberPhoto;
 window.previewNewsImage = previewNewsImage;
+window.filterRequests = filterRequests;
+window.editRequest = editRequest;
+window.approveRequest = approveRequest;
+window.rejectRequest = rejectRequest;
+window.closeRequestEditModal = closeRequestEditModal;
+window.previewEditReqPhoto = previewEditReqPhoto;
